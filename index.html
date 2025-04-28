@@ -333,16 +333,6 @@
         <!-- Botão de instalação -->
         <button id="install-button">Adicionar à tela inicial</button>
         
-        <!-- Botão de atualização -->
-        <button id="refresh-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M23 4v6h-6"></path>
-                <path d="M1 20v-6h6"></path>
-                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
-                <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"></path>
-            </svg>
-        </button>
-        
         <!-- Toast de notificação de atualização -->
         <div id="update-toast">Aplicativo atualizado com sucesso!</div>
     </div>
@@ -878,72 +868,117 @@
                 });
             }
         }
-        // Adicione um botão específico para atualizar o Google Apps Script
-function addGASUpdateButton() {
-    const existingButton = document.getElementById('gas-update-button');
-    if (!existingButton) {
-        const button = document.createElement('button');
-        button.id = 'gas-update-button';
-        button.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 2v6h-6"></path>
-                <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
-                <path d="M3 12a9 9 0 0 0 6 8.5l2-5.5"></path>
-            </svg>
-            <span>Atualizar Conteúdo</span>
-        `;
-        button.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #4e9af1;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 1000;
-            cursor: pointer;
-        `;
-        button.addEventListener('click', forceGoogleAppsScriptUpdate);
-        document.body.appendChild(button);
+        // Função para criar um menu flutuante com botões de ação
+function createFloatingActionMenu() {
+    // Remover botões existentes para evitar duplicação
+    const existingMenu = document.getElementById('floating-action-menu');
+    if (existingMenu) {
+        existingMenu.remove();
     }
-}
-
-// Executar quando o documento estiver pronto
-document.addEventListener('DOMContentLoaded', function() {
-    // Adicionar botão de atualização
-    addGASUpdateButton();
     
-    // Verificar se precisa atualizar ao carregar a página
-    const lastUpdate = parseInt(localStorage.getItem('lastGASUpdate') || '0');
-    const now = new Date().getTime();
-    const oneHour = 60 * 60 * 1000;
-    
-    // Se a última atualização foi há mais de uma hora, atualizar automaticamente
-    if (now - lastUpdate > oneHour) {
-        forceGoogleAppsScriptUpdate();
+    const existingButton = document.getElementById('refresh-button');
+    if (existingButton) {
+        existingButton.remove();
     }
-});
-
-// Verificar atualizações quando o usuário volta à página
-document.addEventListener('visibilitychange', function() {
-    if (document.visibilityState === 'visible') {
-        const lastUpdate = parseInt(localStorage.getItem('lastGASUpdate') || '0');
-        const now = new Date().getTime();
-        const fifteenMinutes = 15 * 60 * 1000;
-        
-        // Se a última atualização foi há mais de 15 minutos, atualizar automaticamente
-        if (now - lastUpdate > fifteenMinutes) {
-            forceGoogleAppsScriptUpdate();
+    
+    const existingGasButton = document.getElementById('gas-update-button');
+    if (existingGasButton) {
+        existingGasButton.remove();
+    }
+    
+    // Criar o botão principal (minimizado)
+    const menuButton = document.createElement('button');
+    menuButton.id = 'floating-menu-button';
+    menuButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="1"></circle>
+            <circle cx="12" cy="5" r="1"></circle>
+            <circle cx="12" cy="19" r="1"></circle>
+        </svg>
+    `;
+    menuButton.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: rgba(78, 154, 241, 0.8);
+        color: white;
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        z-index: 1001;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    `;
+    
+    // Criar o menu (inicialmente oculto)
+    const menu = document.createElement('div');
+    menu.id = 'floating-action-menu';
+    menu.style.cssText = `
+        position: fixed;
+        bottom: 70px;
+        right: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        z-index: 1000;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    `;
+    
+    // Botão de atualização do iframe
+    const refreshButton = document.createElement('button');
+    refreshButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 4v6h-6"></path>
+            <path d="M1 20v-6h6"></path>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
+            <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"></path>
+        </svg>
+        <span>Atualizar App</span>
+    `;
+    refreshButton.style.cssText = `
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        background-color: white;
+        color: #4a4a4a;
+        border: none;
+        text-align: left;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.2s;
+    `;
+    refreshButton.addEventListener('mouseover', () => {
+        refreshButton.style.backgroundColor = '#f5f5f5';
+    });
+    refreshButton.addEventListener('mouseout', () => {
+        refreshButton.style.backgroundColor = 'white';
+    });
+    refreshButton.addEventListener('click', () => {
+        // Limpar o cache do service worker
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage('clearCache');
         }
-    }
-});
-        // Adicione este código ao seu arquivo JavaScript existente ou crie um novo arquivo
-
+        
+        // Recarregar o iframe
+        refreshIframe();
+        
+        // Mostrar toast
+        showToast('Atualizando aplicativo...');
+        
+        // Fechar o menu
+        menu.style.display = 'none';
+        menuButton.classList.remove('active');
+    });
+    
 // Função para forçar a atualização do iframe do Google Apps Script
 function forceGoogleAppsScriptUpdate() {
     const appFrame = document.getElementById('app-frame');
@@ -955,7 +990,7 @@ function forceGoogleAppsScriptUpdate() {
     }
     
     // URL base do seu Google Apps Script
-    const baseUrl = "https://script.google.com/macros/s/AKfycbxslvkPEcDPJTLKto5N_hg6gzC2BPX1T7ZUse3imQ40bNjge81p9ViqLz_O2AOfw3WO/exec";
+    const baseUrl = "https://script.google.com/macros/s/AKfycbzkYj0dpt_Utz9sskznMPUG_zAZWhycyeB_wn2BY7uYOhgsFRfOQe7V_7dsmVeMOt7U/exec";
     
     // Adicionar parâmetros para evitar cache
     const timestamp = new Date().getTime();
@@ -1014,6 +1049,21 @@ function forceGoogleAppsScriptUpdate() {
     // Salvar timestamp da atualização
     localStorage.setItem('lastGASUpdate', timestamp.toString());
 }
+
+// Inicializar o menu flutuante quando o documento estiver pronto
+document.addEventListener('DOMContentLoaded', function() {
+    createFloatingActionMenu();
+    
+    // Verificar se precisa atualizar ao carregar a página
+    const lastUpdate = parseInt(localStorage.getItem('lastGASUpdate') || '0');
+    const now = new Date().getTime();
+    const oneHour = 60 * 60 * 1000;
+    
+    // Se a última atualização foi há mais de uma hora, atualizar automaticamente
+    if (now - lastUpdate > oneHour) {
+        forceGoogleAppsScriptUpdate();
+    }
+});
         
         // Verificar atualizações periodicamente
         setInterval(checkForAppUpdates, 60 * 60 * 1000); // A cada hora
