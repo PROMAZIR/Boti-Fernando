@@ -878,6 +878,78 @@
                 });
             }
         }
+        // Adicione este código ao seu arquivo JavaScript existente ou crie um novo arquivo
+
+// Função para forçar a atualização do iframe do Google Apps Script
+function forceGoogleAppsScriptUpdate() {
+    const appFrame = document.getElementById('app-frame');
+    const loadingScreen = document.getElementById('loading-screen');
+    
+    // Mostrar tela de carregamento
+    if (loadingScreen) {
+        loadingScreen.style.display = 'flex';
+    }
+    
+    // URL base do seu Google Apps Script
+    const baseUrl = "https://script.google.com/macros/s/AKfycbzkYj0dpt_Utz9sskznMPUG_zAZWhycyeB_wn2BY7uYOhgsFRfOQe7V_7dsmVeMOt7U/exec";
+    
+    // Adicionar parâmetros para evitar cache
+    const timestamp = new Date().getTime();
+    const randomParam = Math.floor(Math.random() * 1000000);
+    const noCache = `nocache=${timestamp}-${randomParam}`;
+    
+    // Construir a URL completa com parâmetros anti-cache
+    const fullUrl = baseUrl.includes('?') 
+        ? `${baseUrl}&${noCache}` 
+        : `${baseUrl}?${noCache}`;
+    
+    console.log("Atualizando iframe para:", fullUrl);
+    
+    // Limpar cache do Service Worker para esta URL
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({
+            type: 'clearCache',
+            url: baseUrl
+        });
+    }
+    
+    // Atualizar o iframe com a nova URL
+    if (appFrame) {
+        // Primeiro, remover o iframe existente
+        const frameContainer = document.getElementById('frame-container');
+        if (frameContainer) {
+            frameContainer.innerHTML = '';
+            
+            // Criar um novo iframe
+            const newFrame = document.createElement('iframe');
+            newFrame.id = 'app-frame';
+            newFrame.src = fullUrl;
+            newFrame.allow = "autoplay; camera; microphone; fullscreen";
+            newFrame.allowFullscreen = true;
+            newFrame.sandbox = "allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads allow-top-navigation";
+            
+            // Adicionar evento de carregamento
+            newFrame.onload = function() {
+                console.log("Novo iframe carregado com sucesso");
+                // Esconder tela de carregamento após um pequeno atraso
+                setTimeout(() => {
+                    if (loadingScreen) {
+                        loadingScreen.style.display = 'none';
+                    }
+                }, 500);
+            };
+            
+            // Adicionar o novo iframe ao container
+            frameContainer.appendChild(newFrame);
+        }
+    }
+    
+    // Mostrar toast de notificação
+    showToast("Atualizando para a versão mais recente...");
+    
+    // Salvar timestamp da atualização
+    localStorage.setItem('lastGASUpdate', timestamp.toString());
+}
         
         // Verificar atualizações periodicamente
         setInterval(checkForAppUpdates, 60 * 60 * 1000); // A cada hora
