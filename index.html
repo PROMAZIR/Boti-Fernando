@@ -878,6 +878,70 @@
                 });
             }
         }
+        // Adicione um botão específico para atualizar o Google Apps Script
+function addGASUpdateButton() {
+    const existingButton = document.getElementById('gas-update-button');
+    if (!existingButton) {
+        const button = document.createElement('button');
+        button.id = 'gas-update-button';
+        button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 2v6h-6"></path>
+                <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+                <path d="M3 12a9 9 0 0 0 6 8.5l2-5.5"></path>
+            </svg>
+            <span>Atualizar Conteúdo</span>
+        `;
+        button.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4e9af1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            cursor: pointer;
+        `;
+        button.addEventListener('click', forceGoogleAppsScriptUpdate);
+        document.body.appendChild(button);
+    }
+}
+
+// Executar quando o documento estiver pronto
+document.addEventListener('DOMContentLoaded', function() {
+    // Adicionar botão de atualização
+    addGASUpdateButton();
+    
+    // Verificar se precisa atualizar ao carregar a página
+    const lastUpdate = parseInt(localStorage.getItem('lastGASUpdate') || '0');
+    const now = new Date().getTime();
+    const oneHour = 60 * 60 * 1000;
+    
+    // Se a última atualização foi há mais de uma hora, atualizar automaticamente
+    if (now - lastUpdate > oneHour) {
+        forceGoogleAppsScriptUpdate();
+    }
+});
+
+// Verificar atualizações quando o usuário volta à página
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') {
+        const lastUpdate = parseInt(localStorage.getItem('lastGASUpdate') || '0');
+        const now = new Date().getTime();
+        const fifteenMinutes = 15 * 60 * 1000;
+        
+        // Se a última atualização foi há mais de 15 minutos, atualizar automaticamente
+        if (now - lastUpdate > fifteenMinutes) {
+            forceGoogleAppsScriptUpdate();
+        }
+    }
+});
         // Adicione este código ao seu arquivo JavaScript existente ou crie um novo arquivo
 
 // Função para forçar a atualização do iframe do Google Apps Script
