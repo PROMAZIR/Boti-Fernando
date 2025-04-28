@@ -516,6 +516,52 @@
             offlineMessage.style.display = 'block';
             loadingScreen.style.display = 'none';
         }
+        // Adicione esta função ao seu script existente
+function checkIframeVersion() {
+    // URL do iframe
+    const iframeUrl = "https://script.google.com/macros/s/AKfycbzkYj0dpt_Utz9sskznMPUG_zAZWhycyeB_wn2BY7uYOhgsFRfOQe7V_7dsmVeMOt7U/exec";
+    
+    // Fazer uma solicitação HEAD para verificar a última modificação
+    fetch(iframeUrl, { method: 'HEAD', cache: 'no-store' })
+        .then(response => {
+            const lastModified = response.headers.get('last-modified');
+            const etag = response.headers.get('etag');
+            
+            // Verificar se temos uma versão anterior salva
+            const savedModified = localStorage.getItem('iframeLastModified');
+            const savedEtag = localStorage.getItem('iframeEtag');
+            
+            let needsUpdate = false;
+            
+            if (lastModified && lastModified !== savedModified) {
+                needsUpdate = true;
+                localStorage.setItem('iframeLastModified', lastModified);
+            }
+            
+            if (etag && etag !== savedEtag) {
+                needsUpdate = true;
+                localStorage.setItem('iframeEtag', etag);
+            }
+            
+            // Se precisar atualizar, recarregar o iframe
+            if (needsUpdate) {
+                console.log('Nova versão do iframe detectada, atualizando...');
+                const iframe = document.getElementById('app-frame');
+                const timestamp = new Date().getTime();
+                iframe.src = `${iframeUrl}?_t=${timestamp}`;
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao verificar a versão do iframe:', error);
+        });
+}
+
+// Verificar a versão ao carregar a página e periodicamente
+window.addEventListener('load', () => {
+    checkIframeVersion();
+    // Verificar a cada 30 minutos
+    setInterval(checkIframeVersion, 30 * 60 * 1000);
+});
         
         // Esconder a tela de carregamento sem transição
         function hideLoadingScreen() {
