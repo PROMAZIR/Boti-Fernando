@@ -133,25 +133,6 @@
             font-size: 16px;
         }
         
-        /* Botão de atualização */
-        #refresh-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #4a4a4a;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 1000;
-            cursor: pointer;
-        }
-        
         /* Estado offline */
         #offline-message {
             position: fixed;
@@ -262,23 +243,6 @@
             font-size: 16px;
             width: 100%;
         }
-        
-        /* Toast de notificação */
-        #update-toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #333;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            z-index: 2000;
-            display: none;
-            font-size: 14px;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -287,7 +251,7 @@
         <div class="frame-container" id="frame-container">
             <iframe 
                 id="app-frame"
-                src="https://script.google.com/macros/s/AKfycbxslvkPEcDPJTLKto5N_hg6gzC2BPX1T7ZUse3imQ40bNjge81p9ViqLz_O2AOfw3WO/exec"
+                src="https://script.google.com/macros/s/AKfycbzkYj0dpt_Utz9sskznMPUG_zAZWhycyeB_wn2BY7uYOhgsFRfOQe7V_7dsmVeMOt7U/exec"
                 allow="autoplay; camera; microphone; fullscreen"
                 allowfullscreen
                 loading="eager"
@@ -332,11 +296,8 @@
         
         <!-- Botão de instalação -->
         <button id="install-button">Adicionar à tela inicial</button>
-        
-        <!-- Toast de notificação de atualização -->
-        <div id="update-toast">Aplicativo atualizado com sucesso!</div>
     </div>
-    
+
     <script>
         // Elementos principais
         const loadingScreen = document.getElementById('loading-screen');
@@ -352,8 +313,6 @@
         const retryButton = document.getElementById('retry-button');
         const maleOption = document.getElementById('male-option');
         const femaleOption = document.getElementById('female-option');
-        const refreshButton = document.getElementById('refresh-button');
-        const updateToast = document.getElementById('update-toast');
         
         // Cores baseadas no gênero
         const colors = {
@@ -367,16 +326,10 @@
             male: '🎮',
             female: '💄',
             neutral: '👤'
-                        };
+        };
         
         // Variável para armazenar o gênero selecionado
         let selectedGender = 'neutral';
-        
-        // Variável para armazenar o prompt de instalação
-        let deferredPrompt;
-        
-        // URL do iframe
-        const IFRAME_URL = "https://script.google.com/macros/s/AKfycbxslvkPEcDPJTLKto5N_hg6gzC2BPX1T7ZUse3imQ40bNjge81p9ViqLz_O2AOfw3WO/exec";
         
         // Função para aplicar o tema baseado no gênero
         function applyTheme(gender) {
@@ -392,7 +345,6 @@
             installButton.style.backgroundColor = color;
             retryButton.style.backgroundColor = color;
             saveNameButton.style.backgroundColor = color;
-            refreshButton.style.backgroundColor = color;
             
             // Salvar a preferência
             localStorage.setItem('userGender', gender);
@@ -415,8 +367,7 @@
             } else if (titleContent.includes('👨') || 
                       titleContent.includes('👦') || 
                       titleContent.includes('👴') || 
-                      titleContent.includes('🧔') ||
-                      titleContent.includes('🎮')) {
+                      titleContent.includes('🧔')) {
                 return 'male';
             }
             
@@ -442,8 +393,7 @@
             
             if (hour >= 5 && hour < 12) {
                 greeting.textContent = 'Bom dia!';
-                
-            } else if (hour >= 12 && hour < 18) {
+                        } else if (hour >= 12 && hour < 18) {
                 greeting.textContent = 'Boa tarde!';
             } else {
                 greeting.textContent = 'Boa noite!';
@@ -573,36 +523,112 @@
             loadingScreen.style.display = 'none';
         }
         
-        // Mostrar toast de notificação
-        function showToast(message, duration = 3000) {
-            updateToast.textContent = message;
-            updateToast.style.display = 'block';
-            
-            setTimeout(() => {
-                updateToast.style.display = 'none';
-            }, duration);
+        // Evento de carregamento do iframe
+        appFrame.onload = function() {
+            console.log('Frame carregado com sucesso');
+            // Pequeno atraso para garantir que o iframe esteja completamente renderizado
+            setTimeout(hideLoadingScreen, 100);
+        };
+        
+        // Evento de erro do iframe
+        appFrame.onerror = function() {
+            console.error('Erro ao carregar o iframe');
+            if (navigator.onLine) {
+                // Se estiver online mas o iframe falhou, tentar recarregar
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
+            } else {
+                showOfflineMessage();
+            }
+        };
+        
+        // Timeout para garantir que a tela de carregamento não fique presa
+        setTimeout(function() {
+            hideLoadingScreen();
+        }, 5000);
+        
+        // Verificar se o service worker é suportado
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(error => {
+                    console.error('Erro ao registrar o Service Worker:', error);
+                });
+            });
         }
         
-        // Função para recarregar o iframe com parâmetro anti-cache
-        function refreshIframe() {
-            // Mostrar a tela de carregamento
-            loadingScreen.style.display = 'flex';
-            
-            // Adicionar parâmetro de timestamp para evitar cache
-            const timestamp = new Date().getTime();
-            const newSrc = IFRAME_URL.includes('?') 
-                ? `${IFRAME_URL}&_t=${timestamp}` 
-                : `${IFRAME_URL}?_t=${timestamp}`;
-            
-            // Atualizar o src do iframe
-            appFrame.src = newSrc;
-            
-            // Salvar timestamp da última atualização
-            localStorage.setItem('lastIframeRefresh', timestamp);
-            
-            console.log('Iframe atualizado:', newSrc);
+        // Evento para capturar o prompt de instalação
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installButton.style.display = 'block';
+        });
+        
+        // Configurar o botão de instalação
+        installButton.addEventListener('click', () => {
+            installButton.style.display = 'none';
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                deferredPrompt = null;
+            });
+        });
+        
+        // Verificar se o app já está instalado
+        window.addEventListener('appinstalled', () => {
+            installButton.style.display = 'none';
+        });
+        
+        // Verificar se o app está sendo executado em modo standalone
+        if (window.matchMedia('(display-mode: standalone)').matches || 
+            window.navigator.standalone === true) {
+            installButton.style.display = 'none';
         }
         
+        // Eventos de conexão
+        window.addEventListener('online', () => {
+            offlineMessage.style.display = 'none';
+            window.location.reload();
+        });
+        
+        window.addEventListener('offline', () => {
+            showOfflineMessage();
+        });
+        
+        // Verificar conexão inicial
+        checkConnection();
+        
+        // Adicionar botão para alterar o nome a qualquer momento
+        document.getElementById('user-name').addEventListener('click', () => {
+            // Preencher o input com o nome atual (sem emoji)
+            const currentName = localStorage.getItem('userName') || '';
+            userNameInput.value = currentName;
+            
+            // Selecionar o gênero atual
+            const currentGender = localStorage.getItem('userGender') || 'neutral';
+            if (currentGender === 'male') {
+                maleOption.classList.add('selected');
+                femaleOption.classList.remove('selected');
+            } else if (currentGender === 'female') {
+                femaleOption.classList.add('selected');
+                maleOption.classList.remove('selected');
+            } else {
+                // Neutro - nenhum selecionado
+                maleOption.classList.remove('selected');
+                femaleOption.classList.remove('selected');
+            }
+            
+            selectedGender = currentGender;
+            
+            // Mostrar o modal
+            nameModal.style.display = 'flex';
+        });
+        
+        // Permitir fechar o modal clicando fora dele
+        nameModal.addEventListener('click', (e) => {
+            if (e.target === nameModal) {
+                nameModal.style.display = 'none';
+            }
+        });
         // Remova o código atual do botão refresh-button e gas-update-button
 // E substitua pelo código abaixo:
 
@@ -872,8 +898,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+        
     </script>
 </body>
 </html>
-
-
