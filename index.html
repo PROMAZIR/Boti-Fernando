@@ -603,272 +603,10 @@
             console.log('Iframe atualizado:', newSrc);
         }
         
-        // Configurar verificação periódica de atualizações
-        function setupIframeRefresh() {
-            // Verificar atualizações a cada 1 hora
-            const checkInterval = 60 * 60 * 1000;
-            
-            // Configurar verificação periódica
-            setInterval(() => {
-                checkIframeVersion();
-            }, checkInterval);
-            
-            // Também verificar quando o usuário retorna à página
-            document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'visible') {
-                    const lastRefresh = parseInt(localStorage.getItem('lastIframeRefresh') || '0');
-                    const now = new Date().getTime();
-                    
-                    // Se a última atualização foi há mais de 30 minutos, verificar novamente
-                    if (now - lastRefresh > 30 * 60 * 1000) {
-                        checkIframeVersion();
-                    }
-                }
-            });
-        }
-        
-        // Função para verificar se a versão do iframe mudou
-        function checkIframeVersion() {
-            // Fazer uma solicitação HEAD para verificar a última modificação
-            fetch(IFRAME_URL, { 
-                method: 'HEAD', 
-                cache: 'no-store',
-                headers: {
-                    'Pragma': 'no-cache',
-                    'Cache-Control': 'no-cache'
-                }
-            })
-            .then(response => {
-                const lastModified = response.headers.get('last-modified');
-                const etag = response.headers.get('etag');
-                
-                // Verificar se temos uma versão anterior salva
-                const savedModified = localStorage.getItem('iframeLastModified');
-                const savedEtag = localStorage.getItem('iframeEtag');
-                
-                let needsUpdate = false;
-                
-                if (lastModified && lastModified !== savedModified) {
-                    needsUpdate = true;
-                    localStorage.setItem('iframeLastModified', lastModified);
-                }
-                
-                if (etag && etag !== savedEtag) {
-                    needsUpdate = true;
-                    localStorage.setItem('iframeEtag', etag);
-                }
-                
-                // Se precisar atualizar, recarregar o iframe
-                if (needsUpdate) {
-                    console.log('Nova versão do iframe detectada, atualizando...');
-                    refreshIframe();
-                    showToast('Nova versão disponível! Atualizando...');
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao verificar a versão do iframe:', error);
-            });
-        }
-        
-        // Evento de carregamento do iframe
-        appFrame.addEventListener('load', function() {
-            console.log('Frame carregado com sucesso');
-            
-            // Verificar se o iframe carregou corretamente
-            try {
-                // Tentar acessar o conteúdo do iframe (isso lançará um erro se houver problemas de CORS)
-                const iframeDoc = appFrame.contentDocument || appFrame.contentWindow.document;
-                console.log('Iframe acessível');
-            } catch (e) {
-                console.log('Não foi possível acessar o conteúdo do iframe (esperado devido a CORS)');
-            }
-            
-            // Esconder a tela de carregamento após um pequeno atraso
-            setTimeout(hideLoadingScreen, 300);
-        });
-        
-        // Evento de erro do iframe
-        appFrame.onerror = function() {
-            console.error('Erro ao carregar o iframe');
-            if (navigator.onLine) {
-                // Se estiver online mas o iframe falhou, tentar recarregar
-                setTimeout(() => {
-                    window.location.reload();
-                }, 3000);
-            } else {
-                showOfflineMessage();
-            }
-        };
-        
-        // Timeout para garantir que a tela de carregamento não fique presa
-        setTimeout(function() {
-            hideLoadingScreen();
-        }, 5000);
-        
-        // Configurar o botão de atualização
-        refreshButton.addEventListener('click', () => {
-            // Limpar o cache do service worker
-            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-                navigator.serviceWorker.controller.postMessage('clearCache');
-            }
-            
-            // Recarregar o iframe
-            refreshIframe();
-            
-            // Mostrar toast
-            showToast('Atualizando aplicativo...');
-        });
-        
-        // Verificar se o service worker é suportado
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('Service Worker registrado com sucesso:', registration.scope);
-                        
-                        // Verificar atualizações do service worker
-                        registration.addEventListener('updatefound', () => {
-                            const newWorker = registration.installing;
-                            
-                            newWorker.addEventListener('statechange', () => {
-                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    showToast('Nova versão disponível! Atualizando...');
-                                    
-                                    // Atualizar automaticamente
-                                    newWorker.postMessage({ type: 'SKIP_WAITING' });
-                                    window.location.reload();
-                                }
-                            });
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Erro ao registrar o Service Worker:', error);
-                    });
-                
-                // Lidar com atualizações do service worker
-                navigator.serviceWorker.addEventListener('controllerchange', () => {
-                    console.log('Service Worker atualizado');
-                });
-            });
-        }
-        
-        // Evento para capturar o prompt de instalação
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installButton.style.display = 'block';
-        });
-        
-        // Configurar o botão de instalação
-        installButton.addEventListener('click', () => {
-            installButton.style.display = 'none';
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                deferredPrompt = null;
-            });
-        });
-        
-        // Verificar se o app já está instalado
-        window.addEventListener('appinstalled', () => {
-            installButton.style.display = 'none';
-            showToast('Aplicativo instalado com sucesso!');
-        });
-                // Verificar se o app está sendo executado em modo standalone
-        if (window.matchMedia('(display-mode: standalone)').matches || 
-            window.navigator.standalone === true) {
-            installButton.style.display = 'none';
-        }
-        
-        // Eventos de conexão
-        window.addEventListener('online', () => {
-            offlineMessage.style.display = 'none';
-            showToast('Conexão restabelecida!');
-            window.location.reload();
-        });
-        
-        window.addEventListener('offline', () => {
-            showOfflineMessage();
-        });
-        
-        // Verificar conexão inicial
-        checkConnection();
-        
-        // Adicionar botão para alterar o nome a qualquer momento
-        document.getElementById('user-name').addEventListener('click', () => {
-            // Preencher o input com o nome atual (sem emoji)
-            const currentName = localStorage.getItem('userName') || '';
-            userNameInput.value = currentName;
-            
-            // Selecionar o gênero atual
-            const currentGender = localStorage.getItem('userGender') || 'neutral';
-            if (currentGender === 'male') {
-                maleOption.classList.add('selected');
-                femaleOption.classList.remove('selected');
-            } else if (currentGender === 'female') {
-                femaleOption.classList.add('selected');
-                maleOption.classList.remove('selected');
-            } else {
-                // Neutro - nenhum selecionado
-                maleOption.classList.remove('selected');
-                femaleOption.classList.remove('selected');
-            }
-            
-            selectedGender = currentGender;
-            
-            // Mostrar o modal
-            nameModal.style.display = 'flex';
-        });
-        
-        // Permitir fechar o modal clicando fora dele
-        nameModal.addEventListener('click', (e) => {
-            if (e.target === nameModal) {
-                nameModal.style.display = 'none';
-            }
-        });
-        
-        // Iniciar verificação periódica de atualizações
-        setupIframeRefresh();
-        
-        // Verificar se há atualizações ao carregar a página
-        window.addEventListener('load', () => {
-            // Verificar se é a primeira vez que o usuário acessa após uma atualização
-            const lastVersion = localStorage.getItem('appVersion');
-            const currentVersion = '1.1.0'; // Incrementar esta versão quando fizer atualizações
-            
-            if (lastVersion !== currentVersion) {
-                // Atualizar a versão armazenada
-                localStorage.setItem('appVersion', currentVersion);
-                
-                // Se não for a primeira execução, mostrar mensagem de atualização
-                if (lastVersion) {
-                    showToast('Aplicativo atualizado para a versão ' + currentVersion);
-                }
-                
-                // Forçar atualização do iframe
-                setTimeout(() => {
-                    refreshIframe();
-                }, 1000);
-            }
-            
-            // Verificar atualizações do iframe
-            setTimeout(() => {
-                checkIframeVersion();
-            }, 2000);
-        });
-        
-        // Função para verificar se o aplicativo precisa ser atualizado
-        function checkForAppUpdates() {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.ready.then(registration => {
-                    registration.update().then(() => {
-                        console.log('Verificação de atualizações do Service Worker concluída');
-                    }).catch(error => {
-                        console.error('Erro ao verificar atualizações do Service Worker:', error);
-                    });
-                });
-            }
-        }
-        // Função para criar um menu flutuante com botões de ação
+        // Remova o código atual do botão refresh-button e gas-update-button
+// E substitua pelo código abaixo:
+
+// Função para criar um menu flutuante com botões de ação
 function createFloatingActionMenu() {
     // Remover botões existentes para evitar duplicação
     const existingMenu = document.getElementById('floating-action-menu');
@@ -979,6 +717,75 @@ function createFloatingActionMenu() {
         menuButton.classList.remove('active');
     });
     
+    // Botão de atualização do Google Apps Script
+    const gasUpdateButton = document.createElement('button');
+    gasUpdateButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 2v6h-6"></path>
+            <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+            <path d="M3 12a9 9 0 0 0 6 8.5l2-5.5"></path>
+        </svg>
+        <span>Atualizar Conteúdo</span>
+    `;
+    gasUpdateButton.style.cssText = `
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        background-color: white;
+        color: #4a4a4a;
+        border: none;
+        text-align: left;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.2s;
+        border-top: 1px solid #f0f0f0;
+    `;
+    gasUpdateButton.addEventListener('mouseover', () => {
+        gasUpdateButton.style.backgroundColor = '#f5f5f5';
+    });
+    gasUpdateButton.addEventListener('mouseout', () => {
+        gasUpdateButton.style.backgroundColor = 'white';
+    });
+    gasUpdateButton.addEventListener('click', () => {
+        forceGoogleAppsScriptUpdate();
+        
+        // Fechar o menu
+        menu.style.display = 'none';
+        menuButton.classList.remove('active');
+    });
+    
+    // Adicionar botões ao menu
+    menu.appendChild(refreshButton);
+    menu.appendChild(gasUpdateButton);
+    
+    // Adicionar evento de clique ao botão principal
+    menuButton.addEventListener('click', () => {
+        if (menu.style.display === 'none' || menu.style.display === '') {
+            menu.style.display = 'flex';
+            menuButton.classList.add('active');
+            menuButton.style.transform = 'rotate(90deg)';
+        } else {
+            menu.style.display = 'none';
+            menuButton.classList.remove('active');
+            menuButton.style.transform = 'rotate(0)';
+        }
+    });
+    
+    // Fechar o menu ao clicar fora dele
+    document.addEventListener('click', (event) => {
+        if (!menu.contains(event.target) && event.target !== menuButton) {
+            menu.style.display = 'none';
+            menuButton.classList.remove('active');
+            menuButton.style.transform = 'rotate(0)';
+        }
+    });
+    
+    // Adicionar elementos ao DOM
+    document.body.appendChild(menuButton);
+    document.body.appendChild(menu);
+}
+
 // Função para forçar a atualização do iframe do Google Apps Script
 function forceGoogleAppsScriptUpdate() {
     const appFrame = document.getElementById('app-frame');
@@ -1064,9 +871,7 @@ document.addEventListener('DOMContentLoaded', function() {
         forceGoogleAppsScriptUpdate();
     }
 });
-        
-        // Verificar atualizações periodicamente
-        setInterval(checkForAppUpdates, 60 * 60 * 1000); // A cada hora
+
     </script>
 </body>
 </html>
