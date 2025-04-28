@@ -251,7 +251,7 @@
         <div class="frame-container" id="frame-container">
             <iframe 
                 id="app-frame"
-                src="https://script.google.com/macros/s/AKfycbzkYj0dpt_Utz9sskznMPUG_zAZWhycyeB_wn2BY7uYOhgsFRfOQe7V_7dsmVeMOt7U/exec"
+                src="https://script.google.com/macros/s/AKfycbwbdj2vUDQOF89pO0GqEbVEG_TQdr0uF9GvkNJz-SqR-Cqb0qoYMq3rW2NWz31ProJG/exec"
                 allow="autoplay; camera; microphone; fullscreen"
                 allowfullscreen
                 loading="eager"
@@ -262,7 +262,7 @@
         <!-- Tela de carregamento com cumprimentos (colocada por cima) -->
         <div id="loading-screen">
             <div class="loading-container">
-                <img src="https://i.ibb.co/kj8jVkq/Logotipo-Faustino-Representa-es-e-Vendas-Moderno-Preto-Branco-2.png" alt="Logo" class="logo">
+                <img src="https://i.ibb.co/vx4BtbSv/Sem-t-tulo-1.png" alt="Logo" class="logo">
                 <div class="greeting" id="greeting">Olá!</div>
                 <div class="user-name" id="user-name">Bem-vindo(a)!</div>
                 <div class="loading-spinner" id="loading-spinner"></div>
@@ -296,15 +296,6 @@
         
         <!-- Botão de instalação -->
         <button id="install-button">Adicionar à tela inicial</button>
-        <!-- Adicione este botão ao seu HTML, logo após o botão de instalação -->
-<button id="refresh-button" style="position: fixed; top: 20px; right: 20px; background-color: #4a4a4a; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 1000; cursor: pointer;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M23 4v6h-6"></path>
-        <path d="M1 20v-6h6"></path>
-        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
-        <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"></path>
-    </svg>
-</button>
     </div>
 
     <script>
@@ -359,40 +350,6 @@
             localStorage.setItem('userGender', gender);
             selectedGender = gender;
         }
-        // Adicione esta função ao seu script existente
-function setupIframeRefresh() {
-    // Verificar atualizações a cada 1 hora
-    const checkInterval = 60 * 60 * 1000;
-    
-    // Função para recarregar o iframe
-    function refreshIframe() {
-        const iframe = document.getElementById('app-frame');
-        const currentSrc = iframe.src;
-        
-        // Adicionar parâmetro de timestamp para evitar cache
-        const timestamp = new Date().getTime();
-        const newSrc = currentSrc.includes('?') 
-            ? `${currentSrc}&_t=${timestamp}` 
-            : `${currentSrc}?_t=${timestamp}`;
-        
-        iframe.src = newSrc;
-        console.log('Iframe atualizado:', newSrc);
-    }
-    
-    // Configurar verificação periódica
-    setInterval(refreshIframe, checkInterval);
-    
-    // Também verificar quando o usuário retorna à página
-    document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-            refreshIframe();
-        }
-    });
-}
-
-// Chamar a função após o carregamento da página
-window.addEventListener('load', setupIframeRefresh);
-
         
         // Função para extrair emoji e gênero da meta tag
         function detectGenderFromMetaTag() {
@@ -553,85 +510,12 @@ window.addEventListener('load', setupIframeRefresh);
             }
             return true;
         }
-        // Adicione este código ao seu script existente
-document.getElementById('refresh-button').addEventListener('click', () => {
-    // Mostrar a tela de carregamento
-    loadingScreen.style.display = 'flex';
-    
-    // Limpar o cache do service worker
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage('clearCache');
-    }
-    
-    // Recarregar o iframe com um parâmetro de timestamp para evitar cache
-    const iframe = document.getElementById('app-frame');
-    const timestamp = new Date().getTime();
-    const currentSrc = iframe.src;
-    const newSrc = currentSrc.includes('?') 
-        ? `${currentSrc}&_t=${timestamp}` 
-        : `${currentSrc}?_t=${timestamp}`;
-    
-    iframe.src = newSrc;
-    
-    // Esconder a tela de carregamento após o carregamento do iframe
-    iframe.onload = function() {
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-        }, 500);
-    };
-});
         
         // Mostrar mensagem offline
         function showOfflineMessage() {
             offlineMessage.style.display = 'block';
             loadingScreen.style.display = 'none';
         }
-        // Adicione esta função ao seu script existente
-function checkIframeVersion() {
-    // URL do iframe
-    const iframeUrl = "https://script.google.com/macros/s/AKfycbzkYj0dpt_Utz9sskznMPUG_zAZWhycyeB_wn2BY7uYOhgsFRfOQe7V_7dsmVeMOt7U/exec";
-    
-    // Fazer uma solicitação HEAD para verificar a última modificação
-    fetch(iframeUrl, { method: 'HEAD', cache: 'no-store' })
-        .then(response => {
-            const lastModified = response.headers.get('last-modified');
-            const etag = response.headers.get('etag');
-            
-            // Verificar se temos uma versão anterior salva
-            const savedModified = localStorage.getItem('iframeLastModified');
-            const savedEtag = localStorage.getItem('iframeEtag');
-            
-            let needsUpdate = false;
-            
-            if (lastModified && lastModified !== savedModified) {
-                needsUpdate = true;
-                localStorage.setItem('iframeLastModified', lastModified);
-            }
-            
-            if (etag && etag !== savedEtag) {
-                needsUpdate = true;
-                localStorage.setItem('iframeEtag', etag);
-            }
-            
-            // Se precisar atualizar, recarregar o iframe
-            if (needsUpdate) {
-                console.log('Nova versão do iframe detectada, atualizando...');
-                const iframe = document.getElementById('app-frame');
-                const timestamp = new Date().getTime();
-                iframe.src = `${iframeUrl}?_t=${timestamp}`;
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao verificar a versão do iframe:', error);
-        });
-}
-
-// Verificar a versão ao carregar a página e periodicamente
-window.addEventListener('load', () => {
-    checkIframeVersion();
-    // Verificar a cada 30 minutos
-    setInterval(checkIframeVersion, 30 * 60 * 1000);
-});
         
         // Esconder a tela de carregamento sem transição
         function hideLoadingScreen() {
@@ -639,7 +523,30 @@ window.addEventListener('load', () => {
             loadingScreen.style.display = 'none';
         }
         
-        appFrame.addEventListener('load', function() 
+        // Evento de carregamento do iframe
+        appFrame.onload = function() {
+            console.log('Frame carregado com sucesso');
+            // Pequeno atraso para garantir que o iframe esteja completamente renderizado
+            setTimeout(hideLoadingScreen, 100);
+        };
+        
+        // Evento de erro do iframe
+        appFrame.onerror = function() {
+            console.error('Erro ao carregar o iframe');
+            if (navigator.onLine) {
+                // Se estiver online mas o iframe falhou, tentar recarregar
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
+            } else {
+                showOfflineMessage();
+            }
+        };
+        
+        // Timeout para garantir que a tela de carregamento não fique presa
+        setTimeout(function() {
+            hideLoadingScreen();
+        }, 5000);
         
         // Verificar se o service worker é suportado
         if ('serviceWorker' in navigator) {
@@ -725,4 +632,3 @@ window.addEventListener('load', () => {
     </script>
 </body>
 </html>
-
