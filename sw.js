@@ -1,35 +1,36 @@
-const CACHE_NAME = 'cred-fernando-v1.1.0';
-const DYNAMIC_CACHE = 'cred-fernando-dynamic-v1.1.0';
+// Nome do cache
+const CACHE_NAME = 'cred-fernando-v1.0.2';
 
-// Recursos a serem cacheados inicialmente
-const STATIC_ASSETS = [
+// Arquivos para cache inicial
+const urlsToCache = [
   '/',
   '/index.html',
-  '/site.webmanifest',
+  '/favicon.ico',
   '/favicon-16x16.png',
   '/favicon-32x32.png',
-  '/apple-touch-icon.png'
+  '/apple-touch-icon.png',
+  '/site.webmanifest'
 ];
 
-// Instalar o service worker
+// Instalação do Service Worker
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
         console.log('Cache aberto');
-        return cache.addAll(STATIC_ASSETS);
+        return cache.addAll(urlsToCache);
       })
       .then(() => self.skipWaiting())
   );
 });
 
-// Ativar o service worker
+// Ativação e limpeza de caches antigos
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.filter(cacheName => {
-          return cacheName !== CACHE_NAME && cacheName !== DYNAMIC_CACHE;
+          return cacheName !== CACHE_NAME;
         }).map(cacheName => {
           console.log('Removendo cache antigo:', cacheName);
           return caches.delete(cacheName);
@@ -39,128 +40,76 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Estratégia de cache: Network First para o iframe, Cache First para recursos estáticos
+// Estratégia de cache: Network First com fallback para cache
 self.addEventListener('fetch', event => {
-  const url = new URL(event.request.url);
+  // Ignorar requisições para o Google Apps Script
+  if (event.request.url.includes('script.google.com')) {
+    return;
+  }
   
-  // Verificar se é uma solicitação para o iframe do Google Apps Script
-  if (url.href.includes('script.google.com')) {
-    // Para o iframe, sempre buscar da rede primeiro
-    event.respondWith(
-      fetch(event.request, { 
-        cache: 'no-store',
-        headers: {
-          'Pragma': 'no-cache',
-          'Cache-Control': 'no-cache'
-        }
-      })
-        .then(response => {
-          // Clonar a resposta para poder usá-la e armazená-la
-          const responseClone = response.clone();
-          
-          caches.open(DYNAMIC_CACHE)
-            .then(cache => {
-              cache.put(event.request, responseClone);
-            });
-            
+  event.respondWith(
+    fetch(event.request)
+      .then(response => {
+        // Verificar se a resposta é válida
+        if (!response || response.status !== 200 || response.type !== 'basic') {
           return response;
-        })
-        .catch(() => {
-          // Se falhar, tentar do cache
-          return caches.match(event.request);
-        })
-    );
-  } else {
-    // Para outros recursos, usar cache first
-    event.respondWith(
-      caches.match(event.request)
-        .then(response => {
-          return response || fetch(event.request)
-            .then(fetchResponse => {
-              return caches.open(DYNAMIC_CACHE)
-                .then(cache => {
-                  // Não armazenar em cache respostas de API ou recursos dinâmicos
-                  if (!event.request.url.includes('api') && 
-                      !event.request.url.includes('socket') &&
-                      event.request.method === 'GET') {
-                    cache.put(event.request, fetchResponse.clone());
-                  }
-                  return fetchResponse;
-                });
-            });
-        })
-    );
-  }
-});
-
-// Lidar com mensagens do cliente
-self.addEventListener('message', event => {
-  if (event.data === 'skipWaiting' || (event.data && event.data.type === 'SKIP_WAITING')) {
-    self.skipWaiting();
-  }
-  
-  if (event.data === 'clearCache') {
-    caches.delete(DYNAMIC_CACHE).then(() => {
-      console.log('Cache dinâmico limpo');
-    });
-  }
-});
-
-// Sincronização em segundo plano
-self.addEventListener('sync', event => {
-  if (event.tag === 'refresh-content') {
-    event.waitUntil(
-      // Limpar o cache do iframe
-      caches.open(DYNAMIC_CACHE).then(cache => {
-        return cache.keys().then(keys => {
-          return Promise.all(
-            keys.filter(request => {
-              return request.url.includes('script.google.com');
-            }).map(request => {
-              return cache.delete(request);
-            })
-          );
-        });
+        }
+        
+        // Clonar a resposta para o cache
+        const responseToCache = response.clone();
+        
+        caches.open(CACHE_NAME)
+          .then(cache => {
+            cache.put(event.request, responseToCache);
+          });
+          
+        return response;
       })
-    );
+      .catch(() => {
+        // Se falhar, tentar buscar do cache
+        return caches.match(event.request);
+      })
+  );
+});
+
+// Evento de sincronização em segundo plano
+self.addEventListener('sync', event => {
+  if (event.tag === 'sync-data') {
+    event.waitUntil(syncData());
   }
 });
 
-// Notificações push
+// Função para sincronizar dados
+function syncData() {
+  // Implementação da sincronização de dados
+  console.log('Sincronizando dados em segundo plano');
+  return Promise.resolve();
+}
+
+// Evento de push notification
 self.addEventListener('push', event => {
   const data = event.data.json();
   
   const options = {
-    body: data.body || 'Há uma atualização disponível!',
+    body: data.body,
     icon: '/apple-touch-icon.png',
     badge: '/favicon-32x32.png',
+    vibrate: [100, 50, 100],
     data: {
       url: data.url || '/'
     }
   };
   
   event.waitUntil(
-    self.registration.showNotification(data.title || 'Atualização', options)
+    self.registration.showNotification(data.title, options)
   );
 });
 
-// Clique na notificação
+// Evento de clique na notificação
 self.addEventListener('notificationclick', event => {
   event.notification.close();
   
   event.waitUntil(
-    clients.matchAll({type: 'window'}).then(clientList => {
-      // Verificar se já há uma janela aberta e focar nela
-      for (const client of clientList) {
-        if (client.url === event.notification.data.url && 'focus' in client) {
-          return client.focus();
-        }
-      }
-      
-      // Se não houver janela aberta, abrir uma nova
-      if (clients.openWindow) {
-        return clients.openWindow(event.notification.data.url);
-      }
-    })
+    clients.openWindow(event.notification.data.url)
   );
 });
