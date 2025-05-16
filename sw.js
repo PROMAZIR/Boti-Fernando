@@ -1,5 +1,5 @@
 // Nome do cache
-const CACHE_NAME = 'cred-fernando-v1.0.2';
+const CACHE_NAME = 'cred-fernando-v1.0.4';
 
 // Arquivos para cache inicial
 const urlsToCache = [
