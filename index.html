@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CRED-Fernando</title>
     <!-- Meta tags com emoji para identificação de gênero -->
-    <meta name="title" content="Fernando">
+    <meta name="title" content="Fernando 👨">
     <meta name="description" content="Gerencie suas compras e parcelas de forma simples e eficiente">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://credi-boti.fb.starktech.net.br">
-    <meta property="og:title" content="Fernando">
+    <meta property="og:title" content="Fernando 👨">
     <meta property="og:description" content="Gerencie suas compras e parcelas de forma simples e eficiente">
     <meta property="og:image" content="https://i.ibb.co/kj8jVkq/Logotipo-Faustino-Representa-es-e-Vendas-Moderno-Preto-Branco-2.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://credi-boti.fb.starktech.net.br">
-    <meta name="twitter:title" content="Fernando">
+    <meta name="twitter:title" content="Fernando 👨">
     <meta name="twitter:description" content="Gerencie suas compras e parcelas de forma simples e eficiente">
     <meta name="twitter:image" content="https://i.ibb.co/kj8jVkq/Logotipo-Faustino-Representa-es-e-Vendas-Moderno-Preto-Branco-2.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <style>
-       body, html {
+        body, html {
             margin: 0;
             padding: 0;
             width: 100%;
@@ -38,6 +38,65 @@
             width: 100%;
             height: 100%;
             position: relative;
+        }
+        
+        /* Banner vertical que ocupa toda a tela */
+        #vertical-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.ibb.co/kj8jVkq/Logotipo-Faustino-Representa-es-e-Vendas-Moderno-Preto-Branco-2.png');
+            background-size: cover;
+            background-position: center;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            background-color: #1a3c6e; /* Azul escuro masculino */
+        }
+        
+        #banner-content {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        #banner-logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        
+        #banner-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        #banner-subtitle {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        #banner-button {
+            background-color: #4e9af1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        #banner-button:hover {
+            background-color: #3a7fd9;
         }
         
         /* Tela de carregamento com cumprimentos */
@@ -79,7 +138,7 @@
         
         .loading-spinner {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #ff69b4; /* Cor padrão, será alterada pelo JS */
+            border-top: 4px solid #4e9af1; /* Azul para tema masculino */
             border-radius: 50%;
             width: 30px;
             height: 30px;
@@ -116,7 +175,7 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            /* Cor será definida dinamicamente pelo JavaScript */
+            background-color: #4e9af1; /* Azul para tema masculino */
             color: white;
             padding: 10px 20px;
             border-radius: 5px;
@@ -144,7 +203,7 @@
         }
         
         .retry-button {
-            /* Cor será definida dinamicamente pelo JavaScript */
+            background-color: #4e9af1; /* Azul para tema masculino */
             color: white;
             border: none;
             padding: 10px 20px;
@@ -229,7 +288,7 @@
         }
         
         #save-name-button {
-            /* Cor será definida dinamicamente pelo JavaScript */
+            background-color: #4e9af1; /* Azul para tema masculino */
             color: white;
             border: none;
             padding: 12px 20px;
@@ -356,6 +415,16 @@
 </head>
 <body>
     <div id="app-container">
+        <!-- Banner vertical que ocupa toda a tela -->
+        <div id="vertical-banner">
+            <div id="banner-content">
+                <img id="banner-logo" src="https://i.ibb.co/kj8jVkq/Logotipo-Faustino-Representa-es-e-Vendas-Moderno-Preto-Branco-2.png" alt="Logo">
+                <div id="banner-title">Bem-vindo ao CRED-Fernando</div>
+                                <div id="banner-subtitle">Gerencie suas compras e parcelas de forma simples e eficiente</div>
+                <button id="banner-button">Começar</button>
+            </div>
+        </div>
+
         <!-- Botão de atualização -->
         <button id="refresh-button" title="Atualizar aplicativo">
             <div class="refresh-progress"></div>
@@ -387,8 +456,9 @@
                     <img src="https://i.ibb.co/kj8jVkq/Logotipo-Faustino-Representa-es-e-Vendas-Moderno-Preto-Branco-2.png" alt="Logo 2" class="logo logo-2">
                 </div>
                 <div class="greeting" id="greeting">Olá!</div>
-                <div class="user-name" id="user-name">Bem-vindo(a)!</div>
-                                <div class="loading-spinner" id="loading-spinner"></div>
+                <div class="user-name" id="user-name">Bem-vindo!</div>
+                
+                <div class="loading-spinner" id="loading-spinner"></div>
             </div>
         </div>
         
@@ -401,11 +471,11 @@
         <!-- Modal para inserir nome -->
         <div id="name-modal">
             <div class="modal-content">
-                <div class="modal-title">Como você gostaria de ser chamado(a)?</div>
+                <div class="modal-title">Como você gostaria de ser chamado?</div>
                 <input type="text" id="user-name-input" placeholder="Digite seu nome" maxlength="20">
                 
                 <div class="gender-selection">
-                    <div class="gender-option" id="male-option">
+                    <div class="gender-option selected" id="male-option">
                         <span>👨 Masculino</span>
                     </div>
                     <div class="gender-option" id="female-option">
@@ -423,7 +493,8 @@
     
     <script>
         // Adicione uma variável de versão no topo do seu script
-const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações no seu GAS
+        const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações no seu GAS
+        
         // Elementos principais
         const loadingScreen = document.getElementById('loading-screen');
         const appFrame = document.getElementById('app-frame');
@@ -439,6 +510,8 @@ const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações 
         const maleOption = document.getElementById('male-option');
         const femaleOption = document.getElementById('female-option');
         const refreshButton = document.getElementById('refresh-button');
+        const verticalBanner = document.getElementById('vertical-banner');
+        const bannerButton = document.getElementById('banner-button');
         
         // Cores baseadas no gênero
         const colors = {
@@ -455,10 +528,15 @@ const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações 
         };
         
         // Variável para armazenar o gênero selecionado
-        let selectedGender = 'neutral';
+        let selectedGender = 'male'; // Definido como masculino por padrão
         
         // Variável para armazenar o prompt de instalação
         let deferredPrompt;
+        
+        // Configurar o botão do banner para iniciar o aplicativo
+        bannerButton.addEventListener('click', function() {
+            verticalBanner.style.display = 'none';
+        });
         
         document.addEventListener('DOMContentLoaded', function() {
             // Seleciona as logos
@@ -487,7 +565,7 @@ const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações 
             // Configurar o botão de atualização
             if (refreshButton) {
                 // Obter a cor do tema atual
-                const currentGender = localStorage.getItem('userGender') || 'neutral';
+                const currentGender = localStorage.getItem('userGender') || 'male';
                 const themeColor = colors[currentGender];
                 
                 // Aplicar a cor ao botão
@@ -520,7 +598,7 @@ const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações 
         
         // Função para aplicar o tema baseado no gênero
         function applyTheme(gender) {
-            const color = colors[gender] || colors.neutral;
+            const color = colors[gender] || colors.male; // Padrão para masculino
             
             // Aplicar cor ao nome do usuário
             userName.style.color = color;
@@ -532,6 +610,7 @@ const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações 
             installButton.style.backgroundColor = color;
             retryButton.style.backgroundColor = color;
             saveNameButton.style.backgroundColor = color;
+            bannerButton.style.backgroundColor = color;
             
             // Aplicar cor ao botão de atualização
             if (refreshButton) {
@@ -547,32 +626,26 @@ const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações 
         // Função para atualizar a cor do botão Salvar
         function updateSaveButtonColor() {
             // Verificar o gênero selecionado ou usar o armazenado
-            const gender = selectedGender || localStorage.getItem('userGender') || 'neutral';
+            const gender = selectedGender || localStorage.getItem('userGender') || 'male';
             saveNameButton.style.backgroundColor = colors[gender];
         }
         
         // Função para extrair emoji e gênero da meta tag
         function detectGenderFromMetaTag() {
             const metaTitle = document.querySelector('meta[name="title"]');
-            if (!metaTitle) return null;
+            if (!metaTitle) return 'male'; // Padrão para masculino
             
             const titleContent = metaTitle.getAttribute('content');
             
             // Verificar emojis específicos
             if (titleContent.includes('💄') || 
-                titleContent.includes('👩') || 
-                titleContent.includes('👧') || 
+                titleContent.includes('👩') ||
+                titleContent.includes('👧') ||
                 titleContent.includes('👱‍♀️')) {
                 return 'female';
-            } else if (titleContent.includes('👨') || 
-                       titleContent.includes('👦') || 
-                       titleContent.includes('👴') || 
-                       titleContent.includes('🧔') || 
-                       titleContent.includes('🎮')) {
-                return 'male';
+            } else {
+                return 'male'; // Padrão para masculino
             }
-            
-            return null;
         }
         
         // Configurar seleção de gênero no modal
@@ -631,8 +704,8 @@ const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações 
                 }
             }
             
-            // Tentar detectar gênero da meta tag
-            const detectedGender = detectGenderFromMetaTag();
+            // Tentar detectar gênero da meta tag - sempre será masculino nesta versão
+            const detectedGender = 'male';
             
             // Tentar obter o nome da meta tag title
             const metaTitle = document.querySelector('meta[name="title"]');
@@ -644,17 +717,15 @@ const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações 
                 if (cleanName) {
                     userName.textContent = cleanName;
                     
-                    // Se detectou gênero, aplicar tema e salvar
-                    if (detectedGender) {
-                        applyTheme(detectedGender);
-                        
-                        // Adicionar emoji baseado no gênero
-                        userName.textContent += ' ' + emojis[detectedGender];
-                        
-                        // Salvar as informações
-                        localStorage.setItem('userName', cleanName);
-                        return;
-                    }
+                    // Aplicar tema masculino e salvar
+                    applyTheme(detectedGender);
+                    
+                    // Adicionar emoji baseado no gênero
+                    userName.textContent += ' ' + emojis[detectedGender];
+                    
+                    // Salvar as informações
+                    localStorage.setItem('userName', cleanName);
+                    return;
                 }
             }
             
@@ -672,8 +743,8 @@ const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações 
                     updateSaveButtonColor();
                 }, 1000);
             } else {
-                // Aplicar tema neutro se não tiver gênero definido
-                applyTheme('neutral');
+                // Aplicar tema masculino se não tiver gênero definido
+                applyTheme('male');
             }
         }
         
@@ -703,7 +774,7 @@ const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações 
         
         // Permitir pressionar Enter no input
         userNameInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
+                        if (e.key === 'Enter') {
                 saveNameButton.click();
             }
         });
@@ -738,6 +809,10 @@ const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações 
             console.log('Frame carregado com sucesso');
             // Pequeno atraso para garantir que o iframe esteja completamente renderizado
             setTimeout(hideLoadingScreen, 100);
+            // Esconder o banner vertical após o carregamento
+            setTimeout(() => {
+                verticalBanner.style.display = 'none';
+            }, 3000);
         };
         
         // Evento de erro do iframe
@@ -756,6 +831,8 @@ const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações 
         // Timeout para garantir que a tela de carregamento não fique presa
         setTimeout(function() {
             hideLoadingScreen();
+            // Esconder o banner vertical após o timeout
+            verticalBanner.style.display = 'none';
         }, 5000);
         
         // Verificar se o service worker é suportado
@@ -794,7 +871,7 @@ const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações 
             installButton.style.display = 'none';
         }
         
-                // Eventos de conexão
+        // Eventos de conexão
         window.addEventListener('online', () => {
             offlineMessage.style.display = 'none';
             window.location.reload();
@@ -807,67 +884,66 @@ const APP_VERSION = '1.0.5'; // Incremente este valor quando fizer alterações 
         // Verificar conexão inicial
         checkConnection();
         
-        // Adicione esta função para limpar o cache do navegador para o domínio específico
-function clearCacheForDomain(domain) {
-    if ('caches' in window) {
-        caches.keys().then(function(names) {
-            for (let name of names) {
-                caches.delete(name).then(function() {
-                    console.log('Cache deletado: ' + name);
+        // Função para limpar o cache do navegador para o domínio específico
+        function clearCacheForDomain(domain) {
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (let name of names) {
+                        caches.delete(name).then(function() {
+                            console.log('Cache deletado: ' + name);
+                        });
+                    }
                 });
             }
-        });
-    }
-}
+        }
         
         // Função para forçar a atualização do Google Apps Script
-       function forceGoogleAppsScriptUpdate() {
-    // Mostrar a tela de carregamento primeiro
-    loadingScreen.style.display = 'flex';
-    
-    // Adicionar timestamp para evitar cache
-    const timestamp = new Date().getTime();
-    const currentSrc = appFrame.src;
-    const baseUrl = currentSrc.split('?')[0];
-    
-    // Remover o iframe atual
-    const frameContainer = document.getElementById('frame-container');
-    frameContainer.innerHTML = '';
-    
-    // Criar um novo iframe com a URL atualizada
-    const newFrame = document.createElement('iframe');
-    newFrame.id = 'app-frame';
-    newFrame.src = `${baseUrl}?t=${timestamp}&nocache=true`;
-    newFrame.allow = "autoplay; camera; microphone; fullscreen";
-    newFrame.allowFullscreen = true;
-    newFrame.loading = "eager";
-    newFrame.sandbox = "allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads allow-top-navigation";
-    
-    // Adicionar evento de carregamento ao novo iframe
-    newFrame.onload = function() {
-        console.log('Novo frame carregado com sucesso');
-        setTimeout(hideLoadingScreen, 100);
-    };
-    
-    // Adicionar evento de erro ao novo iframe
-    newFrame.onerror = function() {
-        console.error('Erro ao carregar o novo iframe');
-        if (navigator.onLine) {
-            setTimeout(() => {
-                window.location.reload();
-            }, 3000);
-        } else {
-            showOfflineMessage();
+        function forceGoogleAppsScriptUpdate() {
+            // Mostrar a tela de carregamento primeiro
+            loadingScreen.style.display = 'flex';
+            
+            // Adicionar timestamp para evitar cache
+            const timestamp = new Date().getTime();
+            const currentSrc = appFrame.src;
+            const baseUrl = currentSrc.split('?')[0];
+            
+            // Remover o iframe atual
+            const frameContainer = document.getElementById('frame-container');
+            frameContainer.innerHTML = '';
+            
+            // Criar um novo iframe com a URL atualizada
+            const newFrame = document.createElement('iframe');
+            newFrame.id = 'app-frame';
+            newFrame.src = `${baseUrl}?t=${timestamp}&nocache=true`;
+            newFrame.allow = "autoplay; camera; microphone; fullscreen";
+            newFrame.allowFullscreen = true;
+            newFrame.loading = "eager";
+            newFrame.sandbox = "allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads allow-top-navigation";
+            
+            // Adicionar evento de carregamento ao novo iframe
+            newFrame.onload = function() {
+                console.log('Novo frame carregado com sucesso');
+                setTimeout(hideLoadingScreen, 100);
+            };
+            
+            // Adicionar evento de erro ao novo iframe
+            newFrame.onerror = function() {
+                console.error('Erro ao carregar o novo iframe');
+                if (navigator.onLine) {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 3000);
+                } else {
+                    showOfflineMessage();
+                }
+            };
+            
+            // Adicionar o novo iframe ao container
+            frameContainer.appendChild(newFrame);
+            
+            // Atualizar a referência global ao iframe
+            appFrame = newFrame;
         }
-    };
-    
-    // Adicionar o novo iframe ao container
-    frameContainer.appendChild(newFrame);
-    
-    // Atualizar a referência global ao iframe
-    appFrame = newFrame;
-}
-
         
         // Função para mostrar toast de notificação
         function showToast(message, duration = 3000) {
@@ -897,5 +973,4 @@ function clearCacheForDomain(domain) {
     </script>
 </body>
 </html>
-
 
