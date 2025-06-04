@@ -1124,26 +1124,27 @@
         }
                 
                 // Função para forçar a atualização do Google Apps Script
-        function forceGoogleAppsScriptUpdate() {
-            // Limpar cache do navegador
-            clearCacheForDomain('script.google.com');
-            
-            // Adicionar parâmetro de versão para forçar atualização
-            const currentSrc = appFrame.src;
-            const separator = currentSrc.includes('?') ? '&' : '?';
-            const newSrc = currentSrc.split('?')[0] + separator + 'v=' + APP_VERSION + '&t=' + Date.now();
-            
-            // Recarregar o iframe com nova URL
-            appFrame.src = newSrc;
-            
-            // Mostrar tela de carregamento brevemente
-            loadingScreen.style.display = 'flex';
-            
-            // Esconder após timeout
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-            }, 3000);
-        }
+       function forceGoogleAppsScriptUpdate() {
+    // Limpar cache do navegador
+    clearCacheForDomain('script.google.com');
+    
+    // Simplesmente recarregar o iframe sem modificar a URL
+    const originalSrc = appFrame.src;
+    appFrame.src = 'about:blank';
+    
+    setTimeout(() => {
+        appFrame.src = originalSrc;
+    }, 100);
+    
+    // Mostrar tela de carregamento brevemente
+    loadingScreen.style.display = 'flex';
+    
+    // Esconder após timeout
+    setTimeout(() => {
+        loadingScreen.style.display = 'none';
+    }, 3000);
+}
+
         
         // Função para mostrar toast de notificação
         function showToast(message) {
