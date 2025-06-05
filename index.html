@@ -68,6 +68,67 @@
             overflow: hidden;
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
+        /* Estilo para o botão de começar */
+.start-button {
+    background: linear-gradient(45deg, #1976d2, #42a5f5);
+    color: white;
+    border: none;
+    padding: 18px 40px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 700;
+    box-shadow: 0 8px 25px rgba(25, 118, 210, 0.5);
+    transition: all 0.3s ease;
+    z-index: 10000;
+    position: relative;
+    margin-top: 20px;
+}
+
+.start-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(25, 118, 210, 0.7);
+}
+
+/* Estilo para o container do conteúdo do banner */
+#banner-content-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    z-index: 9998;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#banner-content {
+    max-width: 90%;
+    width: 500px;
+    padding: 40px 30px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: translateY(20px);
+    transition: transform 0.5s ease;
+}
+
+#banner-content-container.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#banner-content-container.active #banner-content {
+    transform: translateY(0);
+}
+
         /* Efeito de partículas animadas */
         #vertical-banner::before {
             content: '';
@@ -606,30 +667,36 @@
     <div id="app-container">
         <!-- Banner vertical masculino que ocupa toda a tela -->
         <div id="vertical-banner">
-            <!-- Elementos tecnológicos decorativos -->
-            <div class="tech-elements">
-                <div class="tech-line"></div>
-                <div class="tech-line"></div>
-                <div class="tech-line"></div>
-            </div>
-            
-            <!-- Ícones decorativos -->
-            <div class="icon-decoration">⚡</div>
-            <div class="icon-decoration">🔧</div>
-            <div class="icon-decoration">💼</div>
-            <div class="icon-decoration">📊</div>
-            
-            <div id="banner-content">
-                <img id="banner-logo" src="https://i.ibb.co/kj8jVkq/Logotipo-Faustino-Representa-es-e-Vendas-Moderno-Preto-Branco-2.png" alt="Logo">
-                <div id="banner-title">CRED-Fernando</div>
-                <div id="banner-subtitle">Sistema de Gestão Financeira</div>
-                <div id="banner-description">
-                    Controle total das suas finanças com tecnologia avançada. 
-                    Gerencie compras, parcelas e orçamentos de forma profissional.
-                </div>
-                <button id="banner-button">🚀 Acessar Sistema</button>
-            </div>
+    <!-- Elementos tecnológicos decorativos -->
+    <div class="tech-elements">
+        <div class="tech-line"></div>
+        <div class="tech-line"></div>
+        <div class="tech-line"></div>
+    </div>
+    
+    <!-- Ícones decorativos -->
+    <div class="icon-decoration">⚡</div>
+    <div class="icon-decoration">🔧</div>
+    <div class="icon-decoration">💼</div>
+    <div class="icon-decoration">📊</div>
+    
+    <!-- Botão inicial para começar -->
+    <button id="start-button" class="start-button">Começar</button>
+</div>
+
+<!-- Adicione este novo div para o conteúdo que aparecerá após clicar em "Começar" -->
+<div id="banner-content-container">
+    <div id="banner-content">
+        <img id="banner-logo" src="https://i.ibb.co/kj8jVkq/Logotipo-Faustino-Representa-es-e-Vendas-Moderno-Preto-Branco-2.png" alt="Logo">
+        <div id="banner-title">CRED-Fernando</div>
+        <div id="banner-subtitle">Sistema de Gestão Financeira</div>
+        <div id="banner-description">
+            Controle total das suas finanças com tecnologia avançada. 
+            Gerencie compras, parcelas e orçamentos de forma profissional.
         </div>
+        <button id="banner-button">🚀 Acessar Sistema</button>
+    </div>
+</div>
         <!-- Botão de atualização -->
         <button id="refresh-button" title="Atualizar aplicativo">
             <div class="refresh-progress"></div>
@@ -716,6 +783,8 @@
         const femaleOption = document.getElementById('female-option');
         const refreshButton = document.getElementById('refresh-button');
         const installButton = document.getElementById('install-button');
+        const startButton = document.getElementById('start-button');
+        const bannerContentContainer = document.getElementById('banner-content-container');
         
         // Variáveis para controle
         let deferredPrompt;
@@ -870,19 +939,29 @@
         
         // Função para mostrar o banner
         function showBanner() {
-            verticalBanner.style.display = 'flex';
-            frameContainer.style.display = 'none';
-        }
+    verticalBanner.style.display = 'flex';
+    bannerContentContainer.style.display = 'flex';
+    bannerContentContainer.classList.remove('active');
+    startButton.style.display = 'block';
+    startButton.style.opacity = '1';
+    frameContainer.style.display = 'none';
+}
         
         // Função para esconder o banner e mostrar o app
         function hideBanner() {
-            verticalBanner.style.opacity = '0';
-            setTimeout(() => {
-                verticalBanner.style.display = 'none';
-                frameContainer.style.display = 'block';
-                verticalBanner.style.opacity = '1';
-            }, 500);
-        }
+    verticalBanner.style.opacity = '0';
+    bannerContentContainer.style.opacity = '0';
+    
+    setTimeout(() => {
+        verticalBanner.style.display = 'none';
+        bannerContentContainer.style.display = 'none';
+        frameContainer.style.display = 'block';
+        
+        // Resetar opacidade para futuras exibições
+        verticalBanner.style.opacity = '1';
+        bannerContentContainer.style.opacity = '1';
+    }, 500);
+}
         
         // Função para verificar o status online/offline
         function checkOnlineStatus() {
@@ -935,8 +1014,18 @@
             
             // Iniciar carregamento do app em segundo plano
             showLoadingScreen();
-        });
-        
+          });
+             // Adicione este event listener junto com os outros
+            startButton.addEventListener('click', () => {
+             // Mostrar o conteúdo do banner
+             bannerContentContainer.classList.add('active');
+    
+             // Opcional: esconder o botão de começar após o clique
+             startButton.style.opacity = '0';
+             setTimeout(() => {
+             startButton.style.display = 'none';
+          }, 500);
+         });
         // Evento para quando o iframe terminar de carregar
         appFrame.addEventListener('load', () => {
             isFrameLoaded = true;
