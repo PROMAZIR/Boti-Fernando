@@ -152,26 +152,26 @@
             100% { transform: translateY(-100px); }
         }
         
-        #banner-content {
-            padding: 40px 20px;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 20px;
-            max-width: 90%;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            animation: slideInUp 1s ease-out;
-        }
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        /* Ajuste o estilo do container do conteúdo do banner */
+#banner-content-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    background-size: cover;
+    background-position: center;
+    z-index: 9998;
+    display: none; /* Inicialmente escondido */
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease;
+}
+
         
         #banner-logo {
             width: 120px;
@@ -939,12 +939,20 @@
         
         // Função para mostrar o banner
         function showBanner() {
+    // Mostrar o banner vertical principal
     verticalBanner.style.display = 'flex';
-    bannerContentContainer.style.display = 'flex';
+    verticalBanner.style.opacity = '1';
+    
+    // Esconder o conteúdo do banner
     bannerContentContainer.classList.remove('active');
+    bannerContentContainer.style.display = 'none';
+    
+    // Esconder o frame do aplicativo
+    frameContainer.style.display = 'none';
+    
+    // Restaurar o botão de começar
     startButton.style.display = 'block';
     startButton.style.opacity = '1';
-    frameContainer.style.display = 'none';
 }
         
         // Função para esconder o banner e mostrar o app
@@ -1015,17 +1023,20 @@
             // Iniciar carregamento do app em segundo plano
             showLoadingScreen();
           });
-             // Adicione este event listener junto com os outros
-            startButton.addEventListener('click', () => {
-             // Mostrar o conteúdo do banner
-             bannerContentContainer.classList.add('active');
-    
-             // Opcional: esconder o botão de começar após o clique
-             startButton.style.opacity = '0';
-             setTimeout(() => {
-             startButton.style.display = 'none';
-          }, 500);
-         });
+             // Modifique o event listener do botão de começar
+startButton.addEventListener('click', () => {
+    // Esconder o banner vertical principal
+    verticalBanner.style.opacity = '0';
+    setTimeout(() => {
+        verticalBanner.style.display = 'none';
+        
+        // Mostrar o conteúdo do banner
+        bannerContentContainer.style.display = 'flex';
+        setTimeout(() => {
+            bannerContentContainer.classList.add('active');
+        }, 50);
+    }, 500);
+});
         // Evento para quando o iframe terminar de carregar
         appFrame.addEventListener('load', () => {
             isFrameLoaded = true;
