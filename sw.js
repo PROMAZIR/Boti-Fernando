@@ -1,5 +1,5 @@
 // Nome do cache
-const CACHE_NAME = 'marmitex-v1.0.4';
+const CACHE_NAME = 'marmitex';
 
 // Arquivos para cache inicial
 const urlsToCache = [
