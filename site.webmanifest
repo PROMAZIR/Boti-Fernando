@@ -1,6 +1,6 @@
 {
-  "name": "FERNANDO - Gerenciador de Crédito",
-  "short_name": "FERNANDO MARTINS",
+  "name": "marmitex - Gerenciador de Crédito",
+  "short_name": "marmitex",
   "description": "Gerencie suas compras e parcelas de forma simples e eficiente",
   "start_url": "/",
   "display": "standalone",
