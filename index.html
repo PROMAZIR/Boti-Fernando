@@ -2,22 +2,28 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Marmitex</title>
     
-    <!-- PWA Meta Tags -->
+    <!-- PWA Meta Tags Aprimoradas -->
     <meta name="theme-color" content="#1e3a8a">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="C.F">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Marmitex">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="msapplication-TileColor" content="#1e3a8a">
+    <meta name="msapplication-navbutton-color" content="#1e3a8a">
     
     <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1hcm1pdGV4IiwKICAic2hvcnRfbmFtZSI6ICJNYXJtaXRleCIsCiAgImRlc2NyaXB0aW9uIjogIkFwbGljYXRpdm8gZGUgZW50cmVnYSBkZSBtYXJtaXRhcyIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgInRoZW1lX2NvbG9yIjogIiMxZTNhOGEiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmOGZhZmMiLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU1USTRJaUJvWldsbmFIUTlJakV5T0NJZ2RtbGxkMEp2ZUQwaU1DQXdJREV5T0NBEVRJNE9DSWdabWxzYkQwaWJtOXVaU0lnZUcxc2JuTTlJbWgwZEhBNkx5OTNkM2N1ZHpNdWIzSm5Mekl3TURBdmMzWm5JaUIrQ2lBZ0lEeGtaV1p6UGdvZ0lDQWdJRHhzYVc1bFlYSkhaR0ZrYVdWdWRDQnBaRDBpWjNKaFpEa2lQZ29nSUNBZ0lDQWdJRHh6ZEc5d0lHOW1abk5sZEQwaU1DVWlJSE4wYjNBdFkyOXNiM0k5SWlNeVFqQTBSMFlpTHo0S0lDQWdJQ0FnSUR4emRHOXdJRzltWm5ObGREMGlNVEF3SlNJZ2MzUnZjQzFqYjJ4dmNqMGlJekk1TVVGRlF5SXZQZ29nSUNBZ1BDOXNhVzVsWVhKSGNtRmthV1Z1ZEQ0S0lDQThaREY4THpKS01IQWVHZVA4QSIsInNpemVzIjogIjEyOHgxMjgiLCJ0eXBlIjogImltYWdlL3N2Zyt4bWwiLCJwdXJwb3NlIjogIm1hc2thYmxlIGFueSJ9LAogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU1UazVJaUJvWldsbmFIUTlJakU1T1NJZ2RtbGxkMEp2ZUQwaU1DQXdJREU1T1NBaU1UazVJaUJtYVd4c1BTSWlJU0I0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lQZ29nSUR4a1pXWnpQZ29nSUNBZ1BHeHBibVZoY2tkeVlXUnBaVzUwSUdsa1BTSm5jbUZrVFU5YmF5QjNhV1IwYUQwaWVDSTFNREI0TlRBd0lpQm9aV2xuYUhROWJEZFVOQ0k4TGlNTEhoTHZvY1FqYlNVOE1fWlQ4QSIsInNpemVzIjogIjE5MngxOTIiLCJ0eXBlIjogImltYWdlL3N2Zyt4bWwiLCJwdXJwb3NlIjogImFueSJ9LAogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU5UUXhJaUJvWldsbmFIUTlJalUwTVNJZ2RtbGxkMEp2ZUQwaU1DQXdJRFUwTVNBaU5UUXhJaUJtYVd4c1BTSWlJU0I0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lQZ29nSUR4a1pXWnpQZ29nSUNBZ1BHeHBibVZoY2tkeVlXUnBaVzUwSUdsa1BTSm5jbUZrUVc1RFZFbElSVU5SUFNNd2R6MXVLSGdnK1VNZWh3K2U5aHRVMzhnWCsre2xNWVhyOTJLRTBSVkZPKzg4SVVBVkZNUFFCVnY4TjI5OFZ4T0p4V1NfNm1MekRBTkVONVRnb0I4YVF3SUNBZyIsInNpemVzIjogIjUxMng1MTIiLCJ0eXBlIjogImltYWdlL3N2Zyt4bWwiLCJwdXJwb3NlIjogImFueSJ9CiAgXQp9">
     
-    <!-- Icons -->
-    <link rel="icon" type="image/png" sizes="192x192" href="https://i.ibb.co/vx4BtbSv/Sem-t-tulo-1.png">
-    <link rel="apple-touch-icon" href="https://i.ibb.co/vx4BtbSv/Sem-t-tulo-1.png">
+    <!-- Favicons Aprimorados com diferentes tamanhos -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZDkiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMkI0RkZGIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzI5MUFFQyIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0idXJsKCNncmFkOSkiLz4KICA8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIj7wn46vPC90ZXh0Pgo8L3N2Zz4K">
+    <link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFkSURBVDiNpZM9SwNBEIafgxASCxsrwcJCG1sLG0uxsLBQsLGwsLBQsLGwsLBQsLGwsLBQsLGwsLBQsLGwsLBQsLBQsLGwsLBQsLBQsLGwsLBQsLBQsLGwsLBQsLBQsLGwsLBQsLBQsLGwsLBQsLBQsLBQsLG">
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAJkSURBVFiFtZc9SwNBEIafgxASCxsrwcJCG1sLG0uxsLBQsLGwsLBQsLGwsLBQsLGwsLBQsLGwsLBQsLGwsLBQsLBQsLGwsLBQsLBQsLGwsLBQsLBQsLGwsLBQsLBQsLGwsLBQsLBQsLBQsLGwsLBQsLBQsLBQsLGwsLBQsLBQsLG">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRBcHBsZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMyQjRGRkYiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMjkxQUVDIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjI0IiBmaWxsPSJ1cmwoI2dyYWRBcHBsZSkiLz4KICA8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSI3MiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIj7wn46vPC90ZXh0Pgo8L3N2Zz4K">
     
     <!-- Preconnect para otimizar carregamento -->
     <link rel="preconnect" href="https://script.google.com">
@@ -49,6 +55,10 @@
             left: 0;
             right: 0;
             bottom: 0;
+            /* Mobile optimizations */
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: none;
+            touch-action: manipulation;
         }
 
         :root {
@@ -60,7 +70,14 @@
             --safe-area-inset-left: env(safe-area-inset-left);
         }
 
-        /* === SPLASH SCREEN === */
+        /* Mobile viewport fix */
+        @supports (-webkit-touch-callout: none) {
+            :root {
+                --vh: calc(1vh - 0.1px);
+            }
+        }
+
+        /* === SPLASH SCREEN MOBILE OTIMIZADA === */
         .splash-screen {
             position: fixed;
             top: 0;
@@ -77,7 +94,7 @@
             color: white;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
-            padding: var(--safe-area-inset-top) var(--safe-area-inset-right) var(--safe-area-inset-bottom) var(--safe-area-inset-left);
+            padding: max(var(--safe-area-inset-top), 20px) max(var(--safe-area-inset-right), 20px) max(var(--safe-area-inset-bottom), 20px) max(var(--safe-area-inset-left), 20px);
         }
 
         .splash-screen.fade-out {
@@ -86,36 +103,26 @@
             pointer-events: none;
         }
 
-        /* Logo Container */
+        /* Logo Container - Responsivo */
         .logo-container {
             position: relative;
             animation: logoEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes logoEntrance {
-            0% {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
+            margin-bottom: clamp(20px, 5vh, 40px);
         }
 
         .logo-wrapper {
-            width: clamp(80px, 20vw, 120px);
-            height: clamp(80px, 20vw, 120px);
+            width: clamp(100px, 25vw, 140px);
+            height: clamp(100px, 25vw, 140px);
             background: rgba(255, 255, 255, 0.1);
-            border-radius: clamp(16px, 4vw, 24px);
+            border-radius: clamp(20px, 6vw, 28px);
             display: flex;
             align-items: center;
             justify-content: center;
             backdrop-filter: blur(20px);
             border: 2px solid rgba(255, 255, 255, 0.2);
             box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.3),
-                0 4px 15px rgba(255, 255, 255, 0.1) inset;
+                0 20px 50px rgba(0, 0, 0, 0.3),
+                0 6px 20px rgba(255, 255, 255, 0.1) inset;
             position: relative;
             overflow: hidden;
         }
@@ -131,21 +138,15 @@
             animation: logoShine 2s ease-in-out infinite;
         }
 
-        @keyframes logoShine {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         .logo-emoji {
-            font-size: clamp(2.5rem, 10vw, 4rem);
+            font-size: clamp(3rem, 12vw, 5rem);
             z-index: 1;
             position: relative;
         }
 
         .app-title {
-            font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+            font-size: clamp(1.5rem, 5vw, 2rem);
             font-weight: 600;
-            margin-top: clamp(16px, 4vw, 24px);
             background: linear-gradient(45deg, #ffffff, #e0e7ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -156,21 +157,10 @@
             animation: titleFadeIn 0.4s ease-out 0.3s forwards;
         }
 
-        @keyframes titleFadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Loading Progress - Simplificado */
+        /* Loading Progress - Mobile */
         .loading-progress {
             position: absolute;
-            bottom: clamp(50px, 12vh, 80px);
+            bottom: max(var(--safe-area-inset-bottom), 60px);
             left: 50%;
             transform: translateX(-50%);
             opacity: 0;
@@ -181,53 +171,53 @@
             gap: 12px;
         }
 
-        @keyframes progressFadeIn {
-            0% {
-                opacity: 0;
-                transform: translateX(-50%) translateY(15px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-
         .loading-text {
-            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            font-size: clamp(0.9rem, 3vw, 1rem);
             color: rgba(255, 255, 255, 0.8);
             font-weight: 500;
         }
 
-        .loading-dots {
+        /* === INSTALL BUTTON === */
+        .install-button {
+            position: fixed;
+            bottom: max(var(--safe-area-inset-bottom), 20px);
+            right: max(var(--safe-area-inset-right), 20px);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            border: none;
+            padding: clamp(10px, 3vw, 14px) clamp(14px, 4vw, 18px);
+            border-radius: clamp(8px, 2vw, 12px);
+            cursor: pointer;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+            z-index: 1001;
+            opacity: 0;
+            transform: scale(0.8) translateY(20px);
+            pointer-events: none;
             display: flex;
-            gap: 6px;
             align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .dot {
-            width: 6px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: dotPulse 1s infinite ease-in-out;
+        .install-button.show {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
         }
 
-        .dot:nth-child(1) { animation-delay: -0.2s; }
-        .dot:nth-child(2) { animation-delay: -0.1s; }
-        .dot:nth-child(3) { animation-delay: 0s; }
-
-        @keyframes dotPulse {
-            0%, 80%, 100% { 
-                transform: scale(1);
-                opacity: 0.5;
-            }
-            40% { 
-                transform: scale(1.2);
-                opacity: 1;
-            }
+        .install-button:active {
+            transform: scale(0.95);
         }
 
-        /* === APP CONTAINER === */
+        .install-button .icon {
+            font-size: 1.1em;
+        }
+
+        /* === APP CONTAINER MOBILE === */
         .app-container {
             position: fixed;
             top: 0;
@@ -240,7 +230,6 @@
             background: #f8fafc;
             overflow: hidden;
             z-index: 1;
-            padding: var(--safe-area-inset-top) var(--safe-area-inset-right) var(--safe-area-inset-bottom) var(--safe-area-inset-left);
             opacity: 0;
             transform: scale(1.02);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -263,6 +252,7 @@
             overflow: hidden;
         }
 
+        /* === IFRAME MOBILE RESPONSIVO === */
         #mainIframe {
             position: absolute;
             top: 0;
@@ -281,13 +271,226 @@
             backface-visibility: hidden;
             opacity: 0;
             transition: opacity 0.2s ease;
+            /* Mobile iframe optimizations */
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            /* Prevent zoom on mobile */
+            touch-action: manipulation;
         }
 
         #mainIframe.loaded {
             opacity: 1;
         }
 
-        /* Loading Overlay no Iframe - Mais discreto */
+        /* Mobile-specific iframe handling */
+        @media (max-width: 768px) {
+            #mainIframe {
+                /* Força viewport responsivo no iframe */
+                min-height: 100%;
+                /* Previne bugs de scroll em iOS */
+                -webkit-transform: translate3d(0,0,0);
+                transform: translate3d(0,0,0);
+            }
+        }
+
+        /* === ERROR SCREEN MOBILE === */
+        .error-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: max(var(--safe-area-inset-top), 20px) max(var(--safe-area-inset-right), 20px) max(var(--safe-area-inset-bottom), 20px) max(var(--safe-area-inset-left), 20px);
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .error-screen.show {
+            display: flex;
+        }
+
+        .error-actions {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(12px, 3vw, 16px);
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+            color: white;
+            border: none;
+            padding: clamp(12px, 3vw, 16px) clamp(20px, 5vw, 24px);
+            border-radius: clamp(10px, 2.5vw, 14px);
+            cursor: pointer;
+            font-size: clamp(0.85rem, 2.5vw, 1rem);
+            font-weight: 600;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
+            width: 100%;
+            touch-action: manipulation;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Toast Mobile */
+        .toast {
+            position: fixed;
+            bottom: max(var(--safe-area-inset-bottom), 20px);
+            left: 50%;
+            transform: translateX(-50%) translateY(60px);
+            background: rgba(17, 24, 39, 0.95);
+            color: white;
+            padding: clamp(12px, 3vw, 16px) clamp(16px, 4vw, 24px);
+            border-radius: clamp(10px, 2.5vw, 14px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            z-index: 2000;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            opacity: 0;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: calc(100vw - 40px);
+            text-align: center;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* === MOBILE SPECIFIC STYLES === */
+        @media (max-width: 768px) {
+            /* Otimizações específicas para mobile */
+            body {
+                /* Previne bounce scroll no iOS */
+                position: fixed;
+                width: 100%;
+                height: 100%;
+            }
+
+            .splash-screen {
+                /* Safe area handling mais agressivo no mobile */
+                padding-top: max(var(--safe-area-inset-top), env(safe-area-inset-top), 20px);
+                padding-bottom: max(var(--safe-area-inset-bottom), env(safe-area-inset-bottom), 20px);
+            }
+
+            .iframe-container {
+                /* Ajustes para notch/dynamic island */
+                top: max(var(--safe-area-inset-top), env(safe-area-inset-top), 0);
+                bottom: max(var(--safe-area-inset-bottom), env(safe-area-inset-bottom), 0);
+            }
+        }
+
+        /* === LANDSCAPE MOBILE === */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .splash-screen {
+                flex-direction: row;
+                gap: 40px;
+            }
+
+            .logo-container {
+                margin-bottom: 0;
+            }
+
+            .loading-progress {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                transform: none;
+            }
+
+            .install-button {
+                bottom: 15px;
+                right: 15px;
+                padding: 8px 12px;
+            }
+        }
+
+        /* === ANIMATIONS === */
+        @keyframes logoEntrance {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes logoShine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes titleFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes progressFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes dotPulse {
+            0%, 80%, 100% { 
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            40% { 
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Loading dots */
+        .loading-dots {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: dotPulse 1s infinite ease-in-out;
+        }
+
+        .dot:nth-child(1) { animation-delay: -0.2s; }
+        .dot:nth-child(2) { animation-delay: -0.1s; }
+        .dot:nth-child(3) { animation-delay: 0s; }
+
+        /* Iframe loading */
         .iframe-loading {
             position: absolute;
             top: 0;
@@ -309,90 +512,40 @@
         }
 
         .spinner {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border: 3px solid #e5e7eb;
             border-top: 3px solid #1e3a8a;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         .loading-text-iframe {
-            margin-top: 12px;
+            margin-top: 16px;
             color: #6b7280;
-            font-size: 0.85rem;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            font-weight: 500;
         }
 
-        /* === ERROR SCREEN === */
-        .error-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: clamp(20px, 5vw, 40px);
-            text-align: center;
-            z-index: 1000;
-        }
-
-        .error-screen.show {
-            display: flex;
-        }
-
+        /* Error screen elements */
         .error-icon {
-            font-size: clamp(2.5rem, 8vw, 3.5rem);
-            margin-bottom: clamp(12px, 3vw, 20px);
+            font-size: clamp(3rem, 10vw, 4rem);
+            margin-bottom: clamp(16px, 4vw, 24px);
         }
 
         .error-title {
-            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             color: #374151;
         }
 
         .error-message {
-            font-size: clamp(0.85rem, 2.8vw, 0.95rem);
+            font-size: clamp(0.9rem, 3vw, 1rem);
             color: #6b7280;
-            margin-bottom: clamp(20px, 5vw, 28px);
+            margin-bottom: clamp(24px, 6vw, 32px);
             line-height: 1.5;
-            max-width: 380px;
-        }
-
-        .error-actions {
-            display: flex;
-            gap: clamp(10px, 2.5vw, 14px);
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
-            color: white;
-            border: none;
-            padding: clamp(9px, 2.5vw, 11px) clamp(18px, 4.5vw, 22px);
-            border-radius: clamp(7px, 1.8vw, 10px);
-            cursor: pointer;
-            font-size: clamp(0.75rem, 2.2vw, 0.85rem);
-            font-weight: 600;
-            transition: all 0.25s ease;
-            box-shadow: 0 3px 12px rgba(30, 58, 138, 0.3);
-            min-width: clamp(100px, 25vw, 140px);
-        }
-
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 5px 16px rgba(30, 58, 138, 0.4);
+            max-width: 90%;
         }
 
         .btn.secondary {
@@ -403,60 +556,49 @@
             background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
         }
 
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: -60px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(17, 24, 39, 0.95);
-            color: white;
-            padding: clamp(10px, 2.5vw, 14px) clamp(14px, 3.5vw, 20px);
-            border-radius: clamp(7px, 1.8vw, 10px);
-            box-shadow: 0 3px 15px rgba(0,0,0,0.15);
-            z-index: 2000;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            opacity: 0;
-            font-size: clamp(0.75rem, 2.2vw, 0.85rem);
-            font-weight: 500;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.1);
-            max-width: 85%;
-            text-align: center;
+        .toast.success { 
+            background: rgba(5, 150, 105, 0.95); 
+        }
+        .toast.error { 
+            background: rgba(239, 68, 68, 0.95); 
+        }
+        .toast.warning { 
+            background: rgba(245, 158, 11, 0.95); 
         }
 
-        .toast.show {
-            bottom: clamp(18px, 4.5vw, 25px);
-            opacity: 1;
-        }
-
-        .toast.success { background: rgba(5, 150, 105, 0.95); }
-        .toast.error { background: rgba(239, 68, 68, 0.95); }
-        .toast.warning { background: rgba(245, 158, 11, 0.95); }
-
-        /* Mobile optimizations */
-        @media (max-width: 480px) {
-            .error-actions {
-                flex-direction: column;
-                width: 100%;
-            }
-            
-            .btn {
-                width: 100%;
-                max-width: 180px;
-            }
-        }
-
-        /* Prevent overscroll */
-        body {
-            overscroll-behavior: none;
-            -webkit-overflow-scrolling: touch;
-        }
-
+        /* Prevent text selection and tap highlights */
         * {
             -webkit-tap-highlight-color: transparent;
             -webkit-focus-ring-color: transparent;
             outline: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Allow text selection in iframe */
+        #mainIframe {
+            -webkit-user-select: auto;
+            -moz-user-select: auto;
+            -ms-user-select: auto;
+            user-select: auto;
+        }
+
+        /* High DPI displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .logo-wrapper {
+                border-width: 1px;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -465,9 +607,9 @@
     <div class="splash-screen" id="splashScreen">
         <div class="logo-container">
             <div class="logo-wrapper">
-                <div class="logo-emoji">🎯</div>
+                <div class="logo-emoji">🍱</div>
             </div>
-            <h1 class="app-title">StarkTech</h1>
+            <h1 class="app-title">Marmitex</h1>
         </div>
 
         <div class="loading-progress">
@@ -479,6 +621,12 @@
             </div>
         </div>
     </div>
+
+    <!-- Install Button -->
+    <button class="install-button" id="installButton" style="display: none;">
+        <span class="icon">📱</span>
+        <span>Instalar App</span>
+    </button>
 
     <!-- Main App Container -->
     <div class="app-container" id="appContainer">
@@ -492,10 +640,10 @@
             <iframe 
                 id="mainIframe" 
                 src=""
-                title="StarkTech"
+                title="Marmitex"
                 loading="eager"
-                allow="geolocation; microphone; camera; midi; encrypted-media; autoplay; clipboard-read; clipboard-write"
-                sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation allow-downloads"
+                allow="geolocation; microphone; camera; midi; encrypted-media; autoplay; clipboard-read; clipboard-write; payment"
+                sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation allow-downloads allow-modals"
             ></iframe>
         </div>
     </div>
@@ -505,12 +653,12 @@
         <div class="error-icon">⚠️</div>
         <h2 class="error-title">Erro de Carregamento</h2>
         <p class="error-message" id="errorMessage">
-            Ocorreu um erro ao carregar o aplicativo. Tente novamente.
+            Ocorreu um erro ao carregar o aplicativo. Verifique sua conexão e tente novamente.
         </p>
         <div class="error-actions">
-            <button class="btn" onclick="reloadApp()">Tentar Novamente</button>
-            <button class="btn secondary" onclick="openDirectly()">Abrir Direto</button>
-            <button class="btn danger" onclick="forceHardReload()">Reload Forçado</button>
+            <button class="btn" onclick="reloadApp()">🔄 Tentar Novamente</button>
+            <button class="btn secondary" onclick="openDirectly()">🌐 Abrir Direto</button>
+            <button class="btn danger" onclick="forceHardReload()">⚡ Reload Forçado</button>
         </div>
     </div>
 
@@ -524,6 +672,51 @@
         let maxRetries = 2;
         let iframeUrl = 'https://script.google.com/macros/s/AKfycbzxR9KzpiHrBcrmtTxaQ_f4rNcJz27rK3zCJmtSOx1TvQdzRroZxzp5DQ4gVQJLfJe3ag/exec';
         let loadTimeout;
+        let deferredPrompt;
+
+        // === MOBILE VIEWPORT HANDLER ===
+        function setMobileViewport() {
+            // Corrige altura do viewport no mobile
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+
+        // === PWA INSTALL HANDLER ===
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('PWA Install prompt available');
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallButton();
+        });
+
+        function showInstallButton() {
+            const installButton = document.getElementById('installButton');
+            installButton.style.display = 'flex';
+            
+            // Mostrar botão após app carregar
+            setTimeout(() => {
+                installButton.classList.add('show');
+            }, 2000);
+        }
+
+        async function installPWA() {
+            if (!deferredPrompt) {
+                showToast('Instalação não disponível neste dispositivo', 'warning');
+                return;
+            }
+
+            const result = await deferredPrompt.prompt();
+            console.log('Install result:', result);
+
+            if (result.outcome === 'accepted') {
+                showToast('App instalado com sucesso! 🎉', 'success');
+                document.getElementById('installButton').classList.remove('show');
+            } else {
+                showToast('Instalação cancelada', 'warning');
+            }
+
+            deferredPrompt = null;
+        }
 
         // === CACHE BUSTING OTIMIZADO ===
         function generateCacheBuster() {
@@ -538,7 +731,7 @@
             return cleanUrl + separator + generateCacheBuster();
         }
 
-        // === CLEAR CACHE RÁPIDO ===
+        // === CLEAR CACHE ===
         async function clearAllCaches() {
             try {
                 if ('caches' in window) {
@@ -548,7 +741,7 @@
                 if ('localStorage' in window) localStorage.clear();
                 if ('sessionStorage' in window) sessionStorage.clear();
                 
-                showToast('Cache limpo!', 'success');
+                showToast('Cache limpo! 🧹', 'success');
                 return true;
             } catch (error) {
                 console.error('Erro ao limpar cache:', error);
@@ -556,7 +749,7 @@
             }
         }
 
-        // === IFRAME MANAGEMENT OTIMIZADO ===
+        // === IFRAME MANAGEMENT MOBILE-OPTIMIZED ===
         function loadIframe() {
             const iframe = document.getElementById('mainIframe');
             const iframeLoading = document.getElementById('iframeLoading');
@@ -566,19 +759,24 @@
             // Clear timeout anterior
             if (loadTimeout) clearTimeout(loadTimeout);
             
-            // Timeout reduzido para 8 segundos
-            loadTimeout = setTimeout(handleLoadTimeout, 8000);
+            // Timeout otimizado para mobile (10s)
+            loadTimeout = setTimeout(handleLoadTimeout, 10000);
             
-            // URL com cache busting simples
+            // URL com cache busting
             const noCacheUrl = buildNoCacheUrl();
             
-            console.log('Loading iframe:', noCacheUrl);
+            console.log('Loading iframe (mobile):', noCacheUrl);
             
-            // Configurar eventos antes de definir src
+            // Configurar eventos
             iframe.onload = handleIframeLoad;
             iframe.onerror = handleIframeError;
             
-            // Carregar imediatamente
+            // Configurações mobile-específicas do iframe
+            iframe.setAttribute('scrolling', 'yes');
+            iframe.style.overflow = 'auto';
+            iframe.style.webkitOverflowScrolling = 'touch';
+            
+            // Carregar URL
             iframe.src = noCacheUrl;
             
             // Atualizar texto
@@ -589,43 +787,62 @@
             clearTimeout(loadTimeout);
             const loadTime = Date.now() - loadStartTime;
             
-            console.log(`Iframe carregado em ${loadTime}ms`);
+            console.log(`Iframe carregado em ${loadTime}ms (mobile)`);
             
             const iframe = document.getElementById('mainIframe');
             const iframeLoading = document.getElementById('iframeLoading');
             
-            // Transição rápida
-            iframe.classList.add('loaded');
-            iframeLoading.classList.add('hide');
-            
-            // Mostrar app imediatamente
-            setTimeout(showMainApp, 100);
-            showToast('Carregado!', 'success');
+            // Verificar se o iframe realmente carregou conteúdo
+            try {
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                if (iframeDoc && iframeDoc.readyState === 'complete') {
+                    iframe.classList.add('loaded');
+                    iframeLoading.classList.add('hide');
+                    
+                    // Mostrar app
+                    setTimeout(showMainApp, 150);
+                    showToast('App carregado! 🚀', 'success');
+                } else {
+                    // Tentar novamente se não carregou completamente
+                    setTimeout(() => {
+                        if (!iframe.classList.contains('loaded')) {
+                            handleIframeLoad();
+                        }
+                    }, 500);
+                }
+            } catch (e) {
+                // Cross-origin, assume que carregou
+                iframe.classList.add('loaded');
+                iframeLoading.classList.add('hide');
+                setTimeout(showMainApp, 150);
+                showToast('App carregado! 🚀', 'success');
+            }
         }
 
         function handleIframeError() {
             clearTimeout(loadTimeout);
-            console.error('Erro ao carregar iframe');
-            showError('Erro ao carregar. Tentando novamente...');
+            console.error('Erro ao carregar iframe (mobile)');
+            showError('Erro de conexão. Verificando rede...');
             
-            // Auto-retry rápido
+            // Auto-retry com backoff
             if (connectionRetries < maxRetries) {
-                setTimeout(reloadApp, 1000);
+                const retryDelay = (connectionRetries + 1) * 1500;
+                setTimeout(reloadApp, retryDelay);
             }
         }
 
         function handleLoadTimeout() {
-            console.error('Timeout ao carregar iframe');
-            showError('Timeout de carregamento. Limpando cache...');
+            console.error('Timeout ao carregar iframe (mobile)');
+            showError('Tempo limite esgotado. Otimizando conexão...');
             
-            // Auto-clear cache no timeout
+            // Auto-clear cache e retry
             setTimeout(async () => {
                 await clearAllCaches();
                 reloadApp();
-            }, 500);
+            }, 1000);
         }
 
-        // === UI MANAGEMENT RÁPIDO ===
+        // === UI MANAGEMENT ===
         function showMainApp() {
             const splashScreen = document.getElementById('splashScreen');
             const appContainer = document.getElementById('appContainer');
@@ -633,10 +850,19 @@
             splashScreen.classList.add('fade-out');
             appContainer.classList.add('show');
             
-            // Remover splash mais rápido
             setTimeout(() => {
                 splashScreen.style.display = 'none';
             }, 300);
+
+            // Mostrar botão de instalação se disponível
+            if (deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) {
+                setTimeout(() => {
+                    const installBtn = document.getElementById('installButton');
+                    if (installBtn.style.display !== 'none') {
+                        installBtn.classList.add('show');
+                    }
+                }, 1000);
+            }
         }
 
         function showError(message = 'Erro desconhecido') {
@@ -655,77 +881,103 @@
             document.getElementById('errorScreen').classList.remove('show');
         }
 
-        // === ACTION HANDLERS OTIMIZADOS ===
+        // === ACTION HANDLERS ===
         function reloadApp() {
-            showToast('Recarregando...', 'warning');
+            showToast('Recarregando app... 🔄', 'warning');
             connectionRetries++;
             
             hideError();
             
-            // Reset rápido
+            // Reset
             const iframe = document.getElementById('mainIframe');
             const iframeLoading = document.getElementById('iframeLoading');
+            const installButton = document.getElementById('installButton');
             
             iframe.src = 'about:blank';
             iframe.classList.remove('loaded');
             iframeLoading.classList.remove('hide');
+            installButton.classList.remove('show');
             
-            // Mostrar splash novamente
+            // Mostrar splash
             const splashScreen = document.getElementById('splashScreen');
             splashScreen.style.display = 'flex';
             splashScreen.classList.remove('fade-out');
             
-            // Carregar imediatamente, sem delay
-            setTimeout(loadIframe, 100);
+            // Recarregar
+            setTimeout(loadIframe, 200);
         }
 
         function openDirectly() {
-            showToast('Abrindo em nova aba...', 'warning');
-            window.open(buildNoCacheUrl(), '_blank');
+            showToast('Abrindo em nova aba... 🌐', 'warning');
+            const url = buildNoCacheUrl();
+            
+            // Tentar abrir em nova aba ou na mesma janela
+            if (window.innerWidth <= 768) {
+                window.location.href = url;
+            } else {
+                window.open(url, '_blank');
+            }
         }
 
         function forceHardReload() {
-            showToast('Reload forçado...', 'warning');
+            showToast('Realizando reload completo... ⚡', 'warning');
             clearAllCaches().then(() => {
-                setTimeout(() => window.location.reload(true), 500);
+                setTimeout(() => {
+                    if ('serviceWorker' in navigator) {
+                        navigator.serviceWorker.getRegistrations().then(registrations => {
+                            registrations.forEach(registration => registration.unregister());
+                            window.location.reload(true);
+                        });
+                    } else {
+                        window.location.reload(true);
+                    }
+                }, 800);
             });
         }
 
-        // === TOAST OTIMIZADO ===
+        // === TOAST ===
         function showToast(message, type = 'info') {
             const toast = document.getElementById('toast');
             toast.textContent = message;
             toast.className = `toast ${type}`;
             toast.classList.add('show');
             
-            setTimeout(() => toast.classList.remove('show'), 2000);
+            setTimeout(() => toast.classList.remove('show'), 2500);
         }
 
-        // === PRELOAD OTIMIZADO ===
-        function preloadResources() {
-            // DNS prefetch
-            const dnsPrefetch = document.createElement('link');
-            dnsPrefetch.rel = 'dns-prefetch';
-            dnsPrefetch.href = 'https://script.google.com';
-            document.head.appendChild(dnsPrefetch);
-
-            // Preconnect
-            const preconnect = document.createElement('link');
-            preconnect.rel = 'preconnect';
-            preconnect.href = 'https://script.google.com';
-            document.head.appendChild(preconnect);
+        // === NETWORK DETECTION ===
+        function checkNetworkStatus() {
+            return navigator.onLine;
         }
 
         // === EVENT LISTENERS ===
+        
+        // Install button click
+        document.getElementById('installButton').addEventListener('click', installPWA);
+
+        // Network status
         window.addEventListener('online', () => {
-            showToast('Conexão restaurada!', 'success');
+            showToast('Conexão restaurada! 📶', 'success');
             if (document.getElementById('errorScreen').classList.contains('show')) {
-                setTimeout(reloadApp, 500);
+                setTimeout(reloadApp, 800);
             }
         });
 
         window.addEventListener('offline', () => {
-            showToast('Sem conexão', 'error');
+            showToast('Conexão perdida 📵', 'error');
+        });
+
+        // Viewport changes (mobile orientation, keyboard)
+        window.addEventListener('resize', setMobileViewport);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setMobileViewport, 100);
+        });
+
+        // Prevent zoom on inputs (iOS)
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
         });
 
         // Keyboard shortcuts
@@ -736,47 +988,76 @@
             }
         });
 
-        // === INICIALIZAÇÃO OTIMIZADA ===
+        // PWA mode detection
+        function isPWAMode() {
+            return window.matchMedia('(display-mode: standalone)').matches ||
+                   window.navigator.standalone === true;
+        }
+
+        // === INICIALIZAÇÃO ===
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('Inicializando app otimizado...');
+            console.log('🚀 Inicializando Marmitex PWA Mobile...');
             
-            // Preload imediato
-            preloadResources();
+            // Set mobile viewport
+            setMobileViewport();
             
-            // Carregar iframe imediatamente após splash mínimo
+            // Check PWA mode
+            if (isPWAMode()) {
+                console.log('📱 Rodando em modo PWA');
+                document.getElementById('installButton').style.display = 'none';
+            }
+            
+            // Network check
+            if (!checkNetworkStatus()) {
+                showError('Sem conexão com a internet');
+                return;
+            }
+            
+            // Preload resources
+            const preconnect = document.createElement('link');
+            preconnect.rel = 'preconnect';
+            preconnect.href = 'https://script.google.com';
+            document.head.appendChild(preconnect);
+            
+            // Start loading
             setTimeout(() => {
                 document.getElementById('progressText').textContent = 'Conectando...';
                 loadIframe();
-            }, 800); // Reduzido de 2800ms para 800ms
+            }, 1000);
         });
 
         // === DEBUGGING ===
         window.addEventListener('load', () => {
             console.log(`
-🚀 APP OTIMIZADO CARREGADO
-• Splash: 800ms (reduzido de 2800ms)
-• Timeout iframe: 8s (reduzido de 12s)
-• Transições: 100-300ms (reduzido de 600ms)
-• Cache busting: Simplificado
-• Auto-retry: Habilitado
+🍱 MARMITEX PWA MOBILE LOADED
+• Viewport: ${window.innerWidth}x${window.innerHeight}
+• PWA Mode: ${isPWAMode()}
+• Network: ${checkNetworkStatus() ? 'Online' : 'Offline'}
+• User Agent: ${navigator.userAgent.includes('Mobile') ? 'Mobile' : 'Desktop'}
             `);
             
-            window.debugApp = {
+            // Debug tools
+            window.debugMarmitex = {
                 reload: reloadApp,
                 open: openDirectly,
                 clearCache: clearAllCaches,
                 hardReload: forceHardReload,
-                buildUrl: buildNoCacheUrl
+                install: installPWA,
+                buildUrl: buildNoCacheUrl,
+                isPWA: isPWAMode,
+                viewport: setMobileViewport
             };
         });
 
         // === ERROR HANDLING ===
         window.addEventListener('error', (event) => {
             console.error('Global Error:', event.error);
+            showToast('Erro inesperado', 'error');
         });
 
         window.addEventListener('unhandledrejection', (event) => {
             console.error('Promise Rejection:', event.reason);
+            showToast('Erro de conexão', 'error');
         });
     </script>
 </body>
